@@ -42,6 +42,6 @@ Para el desarrollo colaborativo y seguimiento del proyecto se implementaron las 
 ---
 
 ## 👥 Integrantes del Equipo
-* [Nombre del Integrante 1] 
-* [Nombre del Integrante 2] 
+* Gladys Milagros Sanchez Laime
 * Manuel Saponaro
+* Esteban Mariano Rogel Chaler
