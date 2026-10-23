@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <LangVersion>14</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,7 +48,15 @@
     <Reference Include="System.Xml"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="EstadoTurno.cs" />
+    <Compile Include="Persona.cs" />
+    <Compile Include="ObraSocial.cs" />
+    <Compile Include="Especialidad.cs" />
+    <Compile Include="Consultorio.cs" />
+    <Compile Include="Paciente.cs" />
+    <Compile Include="Profesional.cs" />
+    <Compile Include="Turno.cs" />
+    <Compile Include="ConsultaEvolucion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
