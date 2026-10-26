@@ -56,23 +56,31 @@ namespace BE
 
             set
             {
+                //Verifica que el Dni no sea nulo o vacio
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("El numero de DNI es obligatorio");
+                }
+
                 // Elimina los puntos "."
                 value = value.Replace(".", "");
 
                 // Elimina espacios en blanco
                 value = value.Replace(" ", "");
 
-                // Verifica que el DNI exista
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("El número de DNI es obligatorio.");
-                }
 
                 // Verifica que el DNI no supere los 10 caracteres
                 if (value.Length > 10)
                 {
                     throw new ArgumentException("El DNI no puede tener más de 10 caracteres.");
                 }
+
+                // verifica que Dni solo tenga numeros
+                if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[0-9]+$"))
+                {
+                    throw new ArgumentException("El DNI solo debe contener numeros");
+                }
+
 
                 field = value;
             }
@@ -112,20 +120,21 @@ namespace BE
 
             set
             {
-                // Si el mail es nulo, lo convierte en una cadena vacía
-                if (value == null)
+                // Si no se informa un correo, permite dejarlo vacio
+                if(string.IsNullOrWhiteSpace(value))
                 {
-                    value = string.Empty;
+                    field= string.Empty;
+                    return;
                 }
-
+                
                 // Verifica que el mail no supere los 100 caracteres
                 if (value.Length > 100)
                 {
                     throw new ArgumentException("El mail no puede superar los 100 caracteres.");
                 }
 
-                // Validar que el mail tenga un formato válido
-                if (value != null && !System.Text.RegularExpressions.Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                // Verifica que el mail tenga un formato válido
+                if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 {
                     throw new ArgumentException("El mail no tiene un formato válido.");
                 }
