@@ -32,5 +32,10 @@ namespace BE
         {
 
         }
+        public Consultorio(int id, int numero)
+        {
+            Id = id;
+            Numero = numero;
+        }
     }
 }

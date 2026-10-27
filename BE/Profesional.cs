@@ -51,5 +51,12 @@ namespace BE
         {
 
         }
+        public Profesional(int idPersona, int idProfesional,string nombre, string apellido, string dni, string telefono, string mail, string matricula, Especialidad especialidad, decimal arancel): base(idPersona, nombre, apellido, dni, telefono, mail)
+        {
+            IdProfesional = idProfesional;
+            Matricula = matricula;
+            Especialidad = especialidad;
+            Arancel = arancel;
+        }
     }
 }

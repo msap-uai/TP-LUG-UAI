@@ -37,5 +37,14 @@ namespace BE
         {
             Estado = EstadoTurno.Pendiente;
         }
+        public Turno(int id, Paciente paciente, Profesional profesional, Consultorio consultorio, DateTime fechaHora, EstadoTurno estado)
+        {
+            Id = id;
+            Paciente = paciente;
+            Profesional = profesional;
+            Consultorio = consultorio;
+            FechaHora = fechaHora;
+            Estado = estado;
+        }
     }
 }

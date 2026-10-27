@@ -147,5 +147,14 @@ namespace BE
         {
 
         }
+        public Persona(int id, string nombre, string apellido, string dni, string telefono, string mail)
+        {
+            Id = id;
+            Nombre = nombre;
+            Apellido = apellido;
+            Dni = dni;
+            Telefono = telefono;
+            Mail = mail;
+        }
     }
 }

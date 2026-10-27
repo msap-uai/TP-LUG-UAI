@@ -45,5 +45,12 @@ namespace BE
         {
 
         }
+        public Paciente(int idPersona, int idPaciente, string nombre, string apellido, string dni, string telefono, string mail, DateTime fechaNacimiento, ObraSocial obraSocial, string numeroAfiliado) : base(idPersona, nombre, apellido, dni, telefono, mail)
+        {
+            IdPaciente = idPaciente;
+            FechaNacimiento = fechaNacimiento;
+            ObraSocial = obraSocial;
+            NumeroAfiliado = numeroAfiliado;
+        }
     }
 }
