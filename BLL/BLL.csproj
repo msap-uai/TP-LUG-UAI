@@ -41,13 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ObraSocialBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
       <Project>{181ad6d7-3b1d-4b70-86e4-296cae6ac854}</Project>
       <Name>BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{44cc4e28-d581-4ece-97e5-67a24372e2f5}</Project>
+      <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\MPP\MPP.csproj">
       <Project>{225e2287-0d13-4c0e-bbc0-398a689cd390}</Project>
