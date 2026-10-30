@@ -161,7 +161,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConectionString.cs" />
+    <Compile Include="ConsultaEvolucionDAL.cs" />
+    <Compile Include="ConsultorioDAL.cs" />
+    <Compile Include="EspecialidadDAL.cs" />
+    <Compile Include="ObraSocialDAL.cs" />
+    <Compile Include="PacienteDAL.cs" />
+    <Compile Include="ProfesionalDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TurnoDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -171,6 +178,10 @@
     <ProjectReference Include="..\BE\BE.csproj">
       <Project>{181ad6d7-3b1d-4b70-86e4-296cae6ac854}</Project>
       <Name>BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MPP\MPP.csproj">
+      <Project>{225e2287-0d13-4c0e-bbc0-398a689cd390}</Project>
+      <Name>MPP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -83,7 +83,7 @@ namespace BE
                 }
 
                 // Validar que el monto cobrado no sea mayor a 100 millones 
-                if (!(value < 100000000m))
+                if (value >= 100000000m)
                 {
                     throw new ArgumentException("El monto cobrado no debe superar los 100 millones.");
                 }
@@ -96,6 +96,16 @@ namespace BE
         public ConsultaEvolucion()
         {
 
+        }
+        public ConsultaEvolucion(int id, Turno turno, DateTime fechaAtencion,string observaciones, string diagnostico, string medicacion, decimal montoCobrado)
+        {
+            Id = id;
+            Turno = turno;
+            FechaAtencion = fechaAtencion;
+            Observaciones = observaciones;
+            Diagnostico = diagnostico;
+            Medicacion = medicacion;
+            MontoCobrado = montoCobrado;
         }
     }
 }

@@ -6,36 +6,8 @@ namespace BE
     {
         public int IdProfesional { get; private set; }
 
-        public string Matricula
-        {
-            get;
-
-            set
-            {
-                // Verifica que la matrícula exista
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("La matrícula es obligatoria.");
-                }
-
-                // Verifica que la matricula solo tenga números
-                for(int i = 0; i < value.Length; i++)
-                {
-                    if (!char.IsDigit(value[i]))
-                    {
-                        throw new ArgumentException("La matrícula solo puede contener números.");
-                    }
-                }
-
-                // Controla que la longitud de la matrícula no supere los 20 caracteres
-                if (value.Length > 20)
-                {
-                    throw new ArgumentException("La matrícula no puede superar los 20 caracteres.");
-                }
-
-                field = value;
-            }
-        }
+        public string Matricula{ get; set; }
+         // Las validaciones de matricula es mejor en BLL, ademas matricula puede tener Letras  
 
         public Especialidad Especialidad
         {
@@ -66,9 +38,9 @@ namespace BE
                 }
 
                 // Limite superior del arancel de 100 millones
-                if (!(value < 100000000m))
+                if (value >= 100000000m)
                 {
-                    throw new ArgumentException("El arancel debe ser menora a 100 millones.");
+                    throw new ArgumentException("El arancel debe ser menor a 100 millones.");
                 }
 
                 field = value;
@@ -78,6 +50,13 @@ namespace BE
         public Profesional()
         {
 
+        }
+        public Profesional(int idPersona, int idProfesional,string nombre, string apellido, string dni, string telefono, string mail, string matricula, Especialidad especialidad, decimal arancel): base(idPersona, nombre, apellido, dni, telefono, mail)
+        {
+            IdProfesional = idProfesional;
+            Matricula = matricula;
+            Especialidad = especialidad;
+            Arancel = arancel;
         }
     }
 }

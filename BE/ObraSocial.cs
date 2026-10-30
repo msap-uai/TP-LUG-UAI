@@ -6,6 +6,7 @@ namespace BE
     {
         public int Id { get; private set; }
 
+
         public string Nombre
         {
             get;
@@ -31,6 +32,11 @@ namespace BE
         public ObraSocial()
         {
 
+        }
+        public ObraSocial(int id,string nombre)
+        {
+            Id= id;
+            Nombre= nombre;
         }
     }
 }

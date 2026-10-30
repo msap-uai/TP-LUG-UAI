@@ -6,53 +6,14 @@ namespace BE
     {
         public int Id { get; private set; }
 
-        public Paciente Paciente
-        {
-            get;
+        public Paciente Paciente { get; set; }
+        //Validamos el paciente en BLL asi nos aseguramos que este en la base de datos
 
-            set
-            {
-                // Validar que el paciente exista
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(Paciente), "El paciente es obligatorio.");
-                }
+        public Profesional Profesional {  get; set; }
+        //Validar en BLL para ver que este en la base de datos
 
-                field = value;
-            }
-        }
-
-        public Profesional Profesional
-        {
-            get;
-
-            set
-            {
-                // Validar que el profesional exista
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(Profesional), "El profesional es obligatorio.");
-                }
-
-                field = value;
-            }
-        }
-
-        public Consultorio Consultorio
-        {
-            get;
-
-            set
-            {
-                // Validar que el consultorio exista
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(Consultorio), "El consultorio es obligatorio.");
-                }
-
-                field = value;
-            }
-        }
+        public Consultorio Consultorio {  get; set; }
+       //Validar en BLL para que un consultorio no se asigne a 2 turnos a la vez
 
         public DateTime FechaHora { get; set; }
 
@@ -75,6 +36,15 @@ namespace BE
         public Turno()
         {
             Estado = EstadoTurno.Pendiente;
+        }
+        public Turno(int id, Paciente paciente, Profesional profesional, Consultorio consultorio, DateTime fechaHora, EstadoTurno estado)
+        {
+            Id = id;
+            Paciente = paciente;
+            Profesional = profesional;
+            Consultorio = consultorio;
+            FechaHora = fechaHora;
+            Estado = estado;
         }
     }
 }
