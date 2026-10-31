@@ -15,5 +15,12 @@ namespace WinFormsApp1
 
             formulario.Show();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form formulario = new Especialidad();
+
+            formulario.Show();
+        }
     }
 }

@@ -1,18 +1,15 @@
 ﻿using BE;
 
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using MPP;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class EspecialidadDAL
+    public static class EspecialidadDAL
     {
-        public void AgregarEspecialidad(Especialidad especialidad)
+        public static void AgregarEspecialidad(Especialidad especialidad)
         {
             try
             {
@@ -36,7 +33,7 @@ namespace DAL
             }
         }
 
-        public List<Especialidad> ObtenerEspecialidades()
+        public static List<Especialidad> ObtenerEspecialidades()
         {
             try
             {
@@ -69,7 +66,30 @@ namespace DAL
             }
         }
 
-        public void EliminarEspecialidad(int idEspecialidad)
+        public static void ModificarEspecialidad(Especialidad especialidad)
+        {
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"UPDATE ESPECIALIDAD SET DESCRIPCION = @DESCRIPCION WHERE ID_ESPECIALIDAD = @ID_ESPECIALIDAD";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@DESCRIPCION", especialidad.Descripcion);
+                    comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", especialidad.Id);
+
+                    int filasAfectadas = comando.ExecuteNonQuery();
+
+                    if (filasAfectadas == 0)
+                    {
+                        throw new Exception("No se encontró la especialidad que desea modificar.");
+                    }
+                }
+            }
+        }
+
+        public static void EliminarEspecialidad(int idEspecialidad)
         {
             try
             {

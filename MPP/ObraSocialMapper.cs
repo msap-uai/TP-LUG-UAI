@@ -16,5 +16,10 @@ namespace MPP
             return obraSocial;
         }
 
+        public static ObraSocial Map(int id, string nombre)
+        {
+            ObraSocial obraSocial = new ObraSocial(id, nombre);
+            return obraSocial;
+        }
     }
 }

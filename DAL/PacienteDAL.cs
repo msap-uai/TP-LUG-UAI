@@ -3,16 +3,13 @@ using MPP;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace DAL
 {
-   public class PacienteDAL
+   public static class PacienteDAL
     {
-        public void AgregarPaciente(Paciente paciente)
+        public static void AgregarPaciente(Paciente paciente)
         {
             using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
             {
@@ -76,7 +73,7 @@ namespace DAL
         }
 
 
-        public List<Paciente> ObtenerPacientes()
+        public static List<Paciente> ObtenerPacientes()
         {
             try
             {
@@ -124,7 +121,58 @@ namespace DAL
             }
         }
 
-        public void ModificarPaciente(Paciente paciente)
+        public static List<Paciente> ObtenerPacientesPorObraSocial(int idObraSocial)
+        {
+            try
+            {
+                List<Paciente> lista = new List<Paciente>();
+
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+                {
+                    conexion.Open();
+
+                    string query = @"SELECT 
+                    PA.ID_PACIENTE,
+                    PE.ID_PERSONA,
+                    PE.NOMBRE,
+                    PE.APELLIDO,
+                    PE.DNI,
+                    PE.TELEFONO,
+                    PE.MAIL,
+                    PA.FECHA_NACIMIENTO,
+                    PA.ID_OBRA_SOCIAL,
+                    PA.NUMERO_AFILIADO,
+                    OS.NOMBRE AS NOMBRE_OBRA_SOCIAL
+                    FROM PACIENTE PA
+                    INNER JOIN PERSONA PE
+                    ON PA.ID_PERSONA = PE.ID_PERSONA
+                    LEFT JOIN OBRA_SOCIAL OS
+                    ON PA.ID_OBRA_SOCIAL = OS.ID_OBRA_SOCIAL
+                    WHERE PA.ID_OBRA_SOCIAL = @ID_OBRA_SOCIAL";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@ID_OBRA_SOCIAL", idObraSocial);
+
+                        using (SqlDataReader sqlDataReader = comando.ExecuteReader())
+                        {
+                            while (sqlDataReader.Read())
+                            {
+                                lista.Add(PacienteMapper.Map(sqlDataReader));
+                            }
+                        }
+                    }
+                }
+
+                return lista;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static void ModificarPaciente(Paciente paciente)
         {
             using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
             {
@@ -201,7 +249,7 @@ namespace DAL
             }
         }
 
-        public void EliminarPaciente(int idPaciente)
+        public static void EliminarPaciente(int idPaciente)
         {
             try
             {

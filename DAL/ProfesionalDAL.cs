@@ -2,10 +2,7 @@
 using MPP;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 
 namespace DAL
 {
@@ -115,6 +112,50 @@ namespace DAL
             {
                 throw;
             }
+        }
+
+        public static List<Profesional> ObtenerProfesionalesPorEspecialidad(int idEspecialidad)
+        {
+            List<Profesional> lista = new List<Profesional>();
+
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"SELECT
+                PR.ID_PROFESIONAL,
+                PE.ID_PERSONA,
+                PE.NOMBRE,
+                PE.APELLIDO,
+                PE.DNI,
+                PE.TELEFONO,
+                PE.MAIL,
+                PR.MATRICULA,
+                PR.ID_ESPECIALIDAD,
+                ES.DESCRIPCION,
+                PR.ARANCEL
+                FROM PROFESIONAL PR
+                INNER JOIN PERSONA PE
+                ON PR.ID_PERSONA = PE.ID_PERSONA
+                INNER JOIN ESPECIALIDAD ES
+                ON PR.ID_ESPECIALIDAD = ES.ID_ESPECIALIDAD
+                WHERE PR.ID_ESPECIALIDAD = @ID_ESPECIALIDAD";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", idEspecialidad);
+
+                    using (SqlDataReader sqlDataReader = comando.ExecuteReader())
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            lista.Add(ProfesionalMapper.Map(sqlDataReader));
+                        }
+                    }
+                }
+            }
+
+            return lista;
         }
 
         public void ModificarProfesional(Profesional profesional)

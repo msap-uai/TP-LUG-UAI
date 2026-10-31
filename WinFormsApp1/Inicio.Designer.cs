@@ -30,6 +30,7 @@
         {
             label1 = new Label();
             button1 = new Button();
+            button2 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -53,11 +54,23 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // button2
+            // 
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            button2.Location = new Point(473, 148);
+            button2.Name = "button2";
+            button2.Size = new Size(120, 39);
+            button2.TabIndex = 4;
+            button2.Text = "Especialidades";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Inicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label1);
             Name = "Inicio";
@@ -70,5 +83,6 @@
 
         private Label label1;
         private Button button1;
+        private Button button2;
     }
 }
