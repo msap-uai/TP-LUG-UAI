@@ -28,61 +28,107 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            button1 = new Button();
-            button2 = new Button();
+            components = new System.ComponentModel.Container();
+            menuStrip1 = new MenuStrip();
+            inicioToolStripMenuItem = new ToolStripMenuItem();
+            especialidadesToolStripMenuItem1 = new ToolStripMenuItem();
+            obrasSocialesToolStripMenuItem1 = new ToolStripMenuItem();
+            salirToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            especialidadesToolStripMenuItem = new ToolStripMenuItem();
+            obrasSocialesToolStripMenuItem = new ToolStripMenuItem();
+            cerrarToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
+            // menuStrip1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe Print", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(453, 47);
-            label1.TabIndex = 0;
-            label1.Text = "POLICONSULTORIOS de la UAI";
+            menuStrip1.Items.AddRange(new ToolStripItem[] { inicioToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.TabIndex = 6;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // button1
+            // inicioToolStripMenuItem
             // 
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(473, 80);
-            button1.Name = "button1";
-            button1.Size = new Size(120, 39);
-            button1.TabIndex = 3;
-            button1.Text = "Obras Sociales";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            inicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { especialidadesToolStripMenuItem1, obrasSocialesToolStripMenuItem1, salirToolStripMenuItem });
+            inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
+            inicioToolStripMenuItem.Size = new Size(48, 20);
+            inicioToolStripMenuItem.Text = "Inicio";
             // 
-            // button2
+            // especialidadesToolStripMenuItem1
             // 
-            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(473, 148);
-            button2.Name = "button2";
-            button2.Size = new Size(120, 39);
-            button2.TabIndex = 4;
-            button2.Text = "Especialidades";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            especialidadesToolStripMenuItem1.Name = "especialidadesToolStripMenuItem1";
+            especialidadesToolStripMenuItem1.Size = new Size(180, 22);
+            especialidadesToolStripMenuItem1.Text = "Especialidades";
+            especialidadesToolStripMenuItem1.Click += especialidadesToolStripMenuItem1_Click;
+            // 
+            // obrasSocialesToolStripMenuItem1
+            // 
+            obrasSocialesToolStripMenuItem1.Name = "obrasSocialesToolStripMenuItem1";
+            obrasSocialesToolStripMenuItem1.Size = new Size(180, 22);
+            obrasSocialesToolStripMenuItem1.Text = "Obras Sociales";
+            obrasSocialesToolStripMenuItem1.Click += obrasSocialesToolStripMenuItem1_Click;
+            // 
+            // salirToolStripMenuItem
+            // 
+            salirToolStripMenuItem.Name = "salirToolStripMenuItem";
+            salirToolStripMenuItem.Size = new Size(180, 22);
+            salirToolStripMenuItem.Text = "Salir";
+            salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { especialidadesToolStripMenuItem, obrasSocialesToolStripMenuItem, cerrarToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(151, 70);
+            // 
+            // especialidadesToolStripMenuItem
+            // 
+            especialidadesToolStripMenuItem.Name = "especialidadesToolStripMenuItem";
+            especialidadesToolStripMenuItem.Size = new Size(150, 22);
+            especialidadesToolStripMenuItem.Text = "Especialidades";
+            // 
+            // obrasSocialesToolStripMenuItem
+            // 
+            obrasSocialesToolStripMenuItem.Name = "obrasSocialesToolStripMenuItem";
+            obrasSocialesToolStripMenuItem.Size = new Size(150, 22);
+            obrasSocialesToolStripMenuItem.Text = "Obras Sociales";
+            // 
+            // cerrarToolStripMenuItem
+            // 
+            cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
+            cerrarToolStripMenuItem.Size = new Size(150, 22);
+            cerrarToolStripMenuItem.Text = "Cerrar";
             // 
             // Inicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(label1);
+            Controls.Add(menuStrip1);
+            IsMdiContainer = true;
+            MainMenuStrip = menuStrip1;
             Name = "Inicio";
             Text = "POLICONSULTORIOS";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
-        private Button button1;
-        private Button button2;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem inicioToolStripMenuItem;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem cerrarToolStripMenuItem;
+        private ToolStripMenuItem especialidadesToolStripMenuItem;
+        private ToolStripMenuItem obrasSocialesToolStripMenuItem;
+        private ToolStripMenuItem especialidadesToolStripMenuItem1;
+        private ToolStripMenuItem obrasSocialesToolStripMenuItem1;
+        private ToolStripMenuItem salirToolStripMenuItem;
     }
 }

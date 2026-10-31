@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BE
 {
@@ -6,9 +6,14 @@ namespace BE
     {
         public int Id { get; private set; }
 
+        private Turno _turno;
+        private string _diagnostico;
+        private string _medicacion;
+        private decimal _montoCobrado;
+
         public Turno Turno
         {
-            get;
+            get => _turno;
 
             set
             {
@@ -20,7 +25,7 @@ namespace BE
                     throw new ArgumentNullException(nameof(Turno), "El turno es obligatorio.");
                 }
 
-                field = value;
+                _turno = value;
             }
         }
 
@@ -36,7 +41,7 @@ namespace BE
 
         public string Diagnostico
         {
-            get;
+            get => _diagnostico;
 
             set
             {
@@ -48,13 +53,13 @@ namespace BE
                     throw new ArgumentException("El diagnóstico no puede superar los 500 caracteres.");
                 }
 
-                field = value;
+                _diagnostico = value;
             }
         }
 
         public string Medicacion
         {
-            get;
+            get => _medicacion;
 
             set
             {
@@ -66,13 +71,13 @@ namespace BE
                     throw new ArgumentException("La medicación no puede superar los 500 caracteres.");
                 }
 
-                field = value;
+                _medicacion = value;
             }
         }
 
         public decimal MontoCobrado
         {
-            get;
+            get => _montoCobrado;
 
             set
             {
@@ -90,7 +95,7 @@ namespace BE
 
                 // VALIDAMOS CONTRA EL ARANCEL DEL PROFESIONAL ?
 
-                field = value;
+                _montoCobrado = value;
             }
         }
         public ConsultaEvolucion()

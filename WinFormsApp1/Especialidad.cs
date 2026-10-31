@@ -1,4 +1,4 @@
-﻿using BLL;
+using BLL;
 
 namespace UI
 {
@@ -24,7 +24,7 @@ namespace UI
             ModoNuevoRegistro();
         }
 
-        protected void ModoNuevoRegistro()
+        protected override void ModoNuevoRegistro()
         {
             LimpiarSeleccion();
 
@@ -84,7 +84,7 @@ namespace UI
             textBox1.Text = instancia.Descripcion;
         }
 
-        protected static bool ConfirmarCambios()
+        protected override bool ConfirmarCambios()
         {
             var confirma = MessageBox.Show("Hay cambios sin guardar. Desea continuar y perder los cambios?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -96,7 +96,7 @@ namespace UI
             return true;
         }
 
-        protected bool HayCambios()
+        protected override bool HayCambios()
         {
             if (id is null)
             {

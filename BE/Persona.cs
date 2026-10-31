@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BE
 {
@@ -6,9 +6,15 @@ namespace BE
     {
         public int Id { get; private set; }
 
+        private string _nombre;
+        private string _apellido;
+        private string _dni;
+        private string _telefono;
+        private string _mail;
+
         public string Nombre
         {
-            get;
+            get => _nombre;
 
             set
             {
@@ -24,13 +30,13 @@ namespace BE
                     throw new ArgumentException("El nombre no puede tener más de 50 caracteres.");
                 }
 
-                field = value;
+                _nombre = value;
             }
         }
 
         public string Apellido
         {
-            get;
+            get => _apellido;
 
             set
             {
@@ -46,13 +52,13 @@ namespace BE
                     throw new ArgumentException("El apellido no puede tener más de 50 caracteres.");
                 }
 
-                field = value;
+                _apellido = value;
             }
         }
 
         public string Dni
         {
-            get;
+            get => _dni;
 
             set
             {
@@ -82,13 +88,13 @@ namespace BE
                 }
 
 
-                field = value;
+                _dni = value;
             }
         }
 
         public string Telefono
         {
-            get;
+            get => _telefono;
 
             set
             {
@@ -110,20 +116,20 @@ namespace BE
                     throw new ArgumentException("El número de teléfono solo puede contener dígitos, espacios, guiones o paréntesis.");
                 }
 
-                field = value;
+                _telefono = value;
             }
         }
 
         public string Mail
         {
-            get;
+            get => _mail;
 
             set
             {
                 // Si no se informa un correo, permite dejarlo vacio
                 if(string.IsNullOrWhiteSpace(value))
                 {
-                    field= string.Empty;
+                    _mail = string.Empty;
                     return;
                 }
                 
@@ -139,7 +145,7 @@ namespace BE
                     throw new ArgumentException("El mail no tiene un formato válido.");
                 }
 
-                field = value;
+                _mail = value;
             }
         }
 

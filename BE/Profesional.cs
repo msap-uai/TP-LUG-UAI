@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BE
 {
@@ -9,9 +9,12 @@ namespace BE
         public string Matricula{ get; set; }
          // Las validaciones de matricula es mejor en BLL, ademas matricula puede tener Letras  
 
+        private Especialidad _especialidad;
+        private decimal _arancel;
+
         public Especialidad Especialidad
         {
-            get;
+            get => _especialidad;
 
             set
             {
@@ -21,13 +24,13 @@ namespace BE
                     throw new ArgumentNullException(nameof(Especialidad), "Debe informar la especialidad del profesional.");
                 }
 
-                field = value;
+                _especialidad = value;
             }
         }
 
         public decimal Arancel
         {
-            get;
+            get => _arancel;
 
             set
             {
@@ -43,7 +46,7 @@ namespace BE
                     throw new ArgumentException("El arancel debe ser menor a 100 millones.");
                 }
 
-                field = value;
+                _arancel = value;
             }
         }
 

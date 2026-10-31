@@ -1,14 +1,17 @@
-﻿using System;
+using System;
 
 namespace BE
 {
     public class Paciente : Persona
     {
+        private DateTime _fechaNacimiento;
+        private string _numeroAfiliado;
+
         public int IdPaciente { get; private set; }
 
         public DateTime FechaNacimiento 
         { 
-            get; 
+            get => _fechaNacimiento; 
             
             set
             {
@@ -18,7 +21,7 @@ namespace BE
                     throw new ArgumentException("La fecha de nacimiento no puede ser mayor a la fecha actual.");
                 }
 
-                field = value;
+                _fechaNacimiento = value;
             }
         }
         // Asi puede o no tener Obra Social
@@ -27,7 +30,7 @@ namespace BE
 
         public string NumeroAfiliado
         {
-            get;
+            get => _numeroAfiliado;
 
             // Controla que la longitud del número de afiliado no supere los 30 caracteres
             set
@@ -37,7 +40,7 @@ namespace BE
                     throw new ArgumentException("El número de afiliado no puede superar los 30 caracteres.");
                 }
 
-                field = value;
+                _numeroAfiliado = value;
             }
         }
 

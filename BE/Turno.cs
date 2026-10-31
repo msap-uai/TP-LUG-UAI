@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BE
 {
@@ -17,9 +17,11 @@ namespace BE
 
         public DateTime FechaHora { get; set; }
 
+        private EstadoTurno _estado;
+
         public EstadoTurno Estado
         {
-            get;
+            get => _estado;
 
             set
             {
@@ -29,7 +31,7 @@ namespace BE
                     throw new ArgumentException("El estado del turno no es válido.");
                 }
 
-                field = value;
+                _estado = value;
             }
         }
 

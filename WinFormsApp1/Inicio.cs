@@ -9,18 +9,40 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Form formulario = new ObraSocial();
 
-            formulario.Show();
+
+
+ 
+
+        private void salirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void especialidadesToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Form formulario = new Especialidad();
+            AbrirVista(new Especialidad());
+        }
 
-            formulario.Show();
+        private void obrasSocialesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AbrirVista(new ObraSocial());
+        }
+        private void AbrirVista(Form formularioNuevo)
+        {
+            // Si ya hay abierta cierra
+            if (this.ActiveMdiChild != null)
+            {
+                this.ActiveMdiChild.Close();
+            }
+
+            // Configuracion del formulario
+            formularioNuevo.MdiParent = this;
+            formularioNuevo.FormBorderStyle = FormBorderStyle.None; // quita bordes
+            formularioNuevo.Dock = DockStyle.Fill;                  // ocupa todo el espacio
+
+            
+            formularioNuevo.Show();
         }
     }
 }

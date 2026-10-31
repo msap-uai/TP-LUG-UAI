@@ -1,14 +1,16 @@
-﻿using System;
+using System;
 
 namespace BE
 {
     public class Consultorio
     {
+        private int _numero;
+
         public int Id { get; private set; }
 
         public int Numero 
         { 
-            get; 
+            get => _numero; 
             
             set
             {
@@ -24,7 +26,7 @@ namespace BE
                     throw new ArgumentException("El número del consultorio no puede ser mayor que 9.");
                 }
 
-                field = value;
+                _numero = value;
             }
         }
 
