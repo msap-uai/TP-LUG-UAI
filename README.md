@@ -2,7 +2,7 @@
 
 **Materia:** Lenguajes de Última Generación (LUG)  
 **Institución:** Universidad Abierta Interamericana (UAI)  
-**Proyecto:** Sistema de Gestión para [Nombre de tu Negocio / Sistema]  
+**Proyecto:** Sistema de Gestión para un Policonsultorio Médico  
 
 ---
 
