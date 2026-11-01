@@ -2,7 +2,7 @@ using BLL;
 
 namespace UI
 {
-    public partial class Especialidad : MiForm
+    public partial class Especialidad : Form
     {
         private BE.Especialidad? instancia = null;
         private int? id = null;
@@ -24,7 +24,7 @@ namespace UI
             ModoNuevoRegistro();
         }
 
-        protected override void ModoNuevoRegistro()
+        private void ModoNuevoRegistro()
         {
             LimpiarSeleccion();
 
@@ -84,7 +84,7 @@ namespace UI
             textBox1.Text = instancia.Descripcion;
         }
 
-        protected override bool ConfirmarCambios()
+        private bool ConfirmarCambios()
         {
             var confirma = MessageBox.Show("Hay cambios sin guardar. Desea continuar y perder los cambios?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
@@ -96,7 +96,7 @@ namespace UI
             return true;
         }
 
-        protected override bool HayCambios()
+        private bool HayCambios()
         {
             if (id is null)
             {
@@ -139,6 +139,30 @@ namespace UI
             dataGridView1.ClearSelection();
 
             textBox1.Text = string.Empty;
+        }
+
+        private void Cierre(object? sender, FormClosingEventArgs e)
+        {
+            if (HayCambios())
+            {
+                if (!ConfirmarCambios())
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (HayCambios())
+            {
+                if (!ConfirmarCambios())
+                {
+                    return;
+                }
+            }
+
+            ModoNuevoRegistro();
         }
 
         private void button2_Click(object sender, EventArgs e)
