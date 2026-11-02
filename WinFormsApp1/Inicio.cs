@@ -8,26 +8,12 @@ namespace WinFormsApp1
         {
             InitializeComponent();
         }
-
-
-
-
-
-
+        //cierra el programa
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
-
-        private void especialidadesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            //Profesionales
-        }
-
-        private void obrasSocialesToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            AbrirVista(new ObraSocial());
-        }
+        //abre formularios
         private void AbrirVista(Form formularioNuevo)
         {
             // Si ya hay abierta cierra
@@ -45,6 +31,15 @@ namespace WinFormsApp1
             formularioNuevo.Show();
         }
 
+        private void especialidadesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AbrirVista(new Profesionales());
+        }
+
+        private void obrasSocialesToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            AbrirVista(new ObraSocial());
+        }
         private void especialidadesToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             AbrirVista(new Especialidad());
@@ -52,27 +47,27 @@ namespace WinFormsApp1
 
         private void pacientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //pacientes
+            AbrirVista(new Pacientes());
         }
 
         private void consultoriosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //consultorios
+            AbrirVista(new Consultorio());
         }
 
         private void agendarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //asignar turnos
+            AbrirVista(new Turnos());
         }
 
         private void agendaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //agenda de turnos
+            AbrirVista(new Agenda());
         }
 
         private void historiaClinicaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //historia clinica de paciente con evolucion
+            AbrirVista(new HistoriaClinica());
         }
     }
 }

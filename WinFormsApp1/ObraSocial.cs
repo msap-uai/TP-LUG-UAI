@@ -5,6 +5,7 @@ namespace UI
     public partial class ObraSocial : Form
     {
         private BE.ObraSocial? instancia = null;
+        private ObraSocialBLL obraSocialBll = new ObraSocialBLL();
         private int? id = null;
 
         public ObraSocial()
@@ -134,7 +135,7 @@ namespace UI
 
         private void MostrarObrasSociales()
         {
-            dataGridView1.DataSource = BLL.ObraSocialBLL.ObtenerObrasSociales();
+            dataGridView1.DataSource = obraSocialBll.ObtenerObrasSociales();
             dataGridView1.CurrentCell = null;
             dataGridView1.ClearSelection();
 
@@ -176,7 +177,7 @@ namespace UI
 
             try
             {
-                BLL.ObraSocialBLL.GuardarObraSocial(id, textBox1.Text);
+                obraSocialBll.GuardarObraSocial(id, textBox1.Text);
             }
             catch (Exception ex)
             {
@@ -210,7 +211,7 @@ namespace UI
 
             try
             {
-                BLL.ObraSocialBLL.EliminarObraSocial(id.Value);
+                obraSocialBll.EliminarObraSocial(id.Value);
             }
             catch (Exception ex)
             {

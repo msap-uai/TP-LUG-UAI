@@ -6,11 +6,13 @@ using MPP;
 
 namespace BLL
 {
-    public static class ObraSocialBLL
+    public class ObraSocialBLL
     {
-        public static List<ObraSocial> ObtenerObrasSociales() => ObraSocialDAL.ObtenerObrasSociales();
+       
+        
+        public List<ObraSocial> ObtenerObrasSociales() => ObraSocialDAL.ObtenerObrasSociales();
 
-        public static void GuardarObraSocial(int? id, string nombre)
+        public void GuardarObraSocial(int? id, string nombre)
         {
             string nombreLimpio = nombre.Trim();
 
@@ -30,26 +32,26 @@ namespace BLL
             }       
         }
 
-        public static void EliminarObraSocial(int id)
+        public void EliminarObraSocial(int id)
         {
             try
             {
-                List<Paciente> pacientes = PacienteBLL.ObtenerPacientesPorObraSocial(id);
-
+                
+                PacienteBLL pacienteBLL = new PacienteBLL();
+                List<Paciente> pacientes = pacienteBLL.ObtenerPacientesPorObraSocial(id);
                 if (pacientes.Count > 0)
                 {
-                    throw new Exception("No se puede eliminar la obra social porque hay pacientes asociados a ella.");
+                    throw new Exception("No se puede eliminar la obra social porque hay pacientes en ella.");
                 }
-
                 ObraSocialDAL.EliminarObraSocial(id);
             }
-            catch 
+            catch
             {
                 throw;
             }
         }
 
-        private static void ValidarNombre(string nombre)
+        private void ValidarNombre(string nombre)
         {
             if (string.IsNullOrWhiteSpace(nombre))
             {
