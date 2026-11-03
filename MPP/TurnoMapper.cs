@@ -1,7 +1,7 @@
 ﻿using BE;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,7 +30,7 @@ namespace MPP
 
             string estadoTexto = Convert.ToString(sqlDataReader["ESTADO"]);
 
-            EstadoTurno estado = (EstadoTurno)Enum.Parse(typeof(EstadoTurno), estadoTexto);
+            EstadoTurno estado = (EstadoTurno)Enum.Parse(typeof(EstadoTurno), estadoTexto, true);
 
             Paciente paciente = new Paciente(
                 idPersonaPaciente,

@@ -2,7 +2,7 @@
 using MPP;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -88,7 +88,7 @@ namespace DAL
                         if (filasAfectadas == 0)
                         {
                             throw new Exception(
-                                "No se encontró el consultorio que desea modificar.");
+                                "No se encontro el consultorio.");
                         }
                     }
                 }
@@ -120,7 +120,7 @@ namespace DAL
                         if (filasAfectadas == 0)
                         {
                             throw new Exception(
-                                "No se encontró el consultorio que desea eliminar.");
+                                "No se encontro el consultorio.");
                         }
                     }
                 }

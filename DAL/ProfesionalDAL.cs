@@ -255,7 +255,7 @@ namespace DAL
 
                         if (filasAfectadas == 0)
                         {
-                            throw new Exception("No se encontró el profesional que desea eliminar.");
+                            throw new Exception("no se encontró el profesional que desea eliminar.");
                         }
                     }
                 }
