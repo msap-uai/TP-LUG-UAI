@@ -1,0 +1,123 @@
+﻿using BE;
+using Microsoft.Data.SqlClient;
+using MPP;
+using System;
+using System.Collections.Generic;
+
+namespace DAL
+{
+    public static class PersonaDAL
+    {
+        public static void AgregarPersona(Persona persona)
+        {
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"INSERT INTO PERSONA (NOMBRE, APELLIDO, DNI, TELEFONO, MAIL) VALUES (@NOMBRE, @APELLIDO, @DNI, @TELEFONO, @MAIL)";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@NOMBRE", persona.Nombre);
+                    comando.Parameters.AddWithValue("@APELLIDO", persona.Apellido);
+                    comando.Parameters.AddWithValue("@DNI", persona.Dni);
+                    comando.Parameters.AddWithValue("@TELEFONO", string.IsNullOrEmpty(persona.Telefono) ? (object)DBNull.Value : persona.Telefono);
+                    comando.Parameters.AddWithValue("@MAIL", string.IsNullOrEmpty(persona.Mail) ? (object)DBNull.Value : persona.Mail);
+
+                    comando.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public static List<Persona> ObtenerPersonas()
+        {
+            List<Persona> lista = new List<Persona>();
+
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"SELECT ID_PERSONA, NOMBRE, APELLIDO, DNI, TELEFONO, MAIL FROM PERSONA ORDER BY APELLIDO, NOMBRE";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    using (SqlDataReader sqlDataReader = comando.ExecuteReader())
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            lista.Add(PersonaMapper.Map(sqlDataReader));
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+        public static void ModificarPersona(Persona persona)
+        {
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"UPDATE PERSONA SET NOMBRE = @NOMBRE, APELLIDO = @APELLIDO, DNI = @DNI, TELEFONO = @TELEFONO, MAIL = @MAIL WHERE ID_PERSONA = @ID_PERSONA";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@NOMBRE", persona.Nombre);
+                    comando.Parameters.AddWithValue("@APELLIDO", persona.Apellido);
+                    comando.Parameters.AddWithValue("@DNI", persona.Dni);
+                    comando.Parameters.AddWithValue("@TELEFONO", string.IsNullOrEmpty(persona.Telefono) ? (object)DBNull.Value : persona.Telefono);
+                    comando.Parameters.AddWithValue("@MAIL", string.IsNullOrEmpty(persona.Mail) ? (object)DBNull.Value : persona.Mail);
+                    comando.Parameters.AddWithValue("@ID_PERSONA", persona.Id);
+
+                    int filasAfectadas = comando.ExecuteNonQuery();
+
+                    if (filasAfectadas == 0)
+                    {
+                        throw new Exception("No se encontró la persona a modificar.");
+                    }
+                }
+            }
+        }
+
+        public static void EliminarPersona(int idPersona)
+        {
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"DELETE FROM PERSONA WHERE ID_PERSONA = @ID_PERSONA";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@ID_PERSONA", idPersona);
+
+                    int filasAfectadas = comando.ExecuteNonQuery();
+
+                    if (filasAfectadas == 0)
+                    {
+                        throw new Exception("No se encontró la persona a eliminar.");
+                    }
+                }
+            }
+        }
+
+        public static bool TieneRegistrosAsociados(int idPersona)
+        {
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"SELECT CASE WHEN EXISTS (SELECT 1 FROM PACIENTE WHERE ID_PERSONA = @ID_PERSONA) OR EXISTS (SELECT 1 FROM PROFESIONAL WHERE ID_PERSONA = @ID_PERSONA) THEN 1 ELSE 0 END";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    comando.Parameters.AddWithValue("@ID_PERSONA", idPersona);
+
+                    return Convert.ToInt32(comando.ExecuteScalar()) == 1;
+                }
+            }
+        }
+    }
+}

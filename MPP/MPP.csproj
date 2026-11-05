@@ -155,6 +155,7 @@
     <Compile Include="EspecialidadMapper.cs" />
     <Compile Include="ObraSocialMapper.cs" />
     <Compile Include="PacienteMapper.cs" />
+    <Compile Include="PersonaMapper.cs" />
     <Compile Include="ProfesionalMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TurnoMapper.cs" />

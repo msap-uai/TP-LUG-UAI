@@ -160,6 +160,7 @@
     <Compile Include="EspecialidadDAL.cs" />
     <Compile Include="ObraSocialDAL.cs" />
     <Compile Include="PacienteDAL.cs" />
+    <Compile Include="PersonaDAL.cs" />
     <Compile Include="ProfesionalDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TurnoDAL.cs" />

@@ -47,6 +47,7 @@
             especialidadesToolStripMenuItem = new ToolStripMenuItem();
             obrasSocialesToolStripMenuItem = new ToolStripMenuItem();
             cerrarToolStripMenuItem = new ToolStripMenuItem();
+            personaToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
@@ -62,7 +63,7 @@
             // 
             // inicioToolStripMenuItem
             // 
-            inicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripTextBox1, especialidadesToolStripMenuItem1, especialidadesToolStripMenuItem2, obrasSocialesToolStripMenuItem1, pacientesToolStripMenuItem, consultoriosToolStripMenuItem, toolStripSeparator1, salirToolStripMenuItem });
+            inicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripTextBox1, especialidadesToolStripMenuItem1, especialidadesToolStripMenuItem2, obrasSocialesToolStripMenuItem1, personaToolStripMenuItem, pacientesToolStripMenuItem, consultoriosToolStripMenuItem, toolStripSeparator1, salirToolStripMenuItem });
             inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
             inicioToolStripMenuItem.Size = new Size(60, 20);
             inicioToolStripMenuItem.Text = "Archivo";
@@ -132,14 +133,14 @@
             // agendarToolStripMenuItem
             // 
             agendarToolStripMenuItem.Name = "agendarToolStripMenuItem";
-            agendarToolStripMenuItem.Size = new Size(180, 22);
+            agendarToolStripMenuItem.Size = new Size(146, 22);
             agendarToolStripMenuItem.Text = "Asignar turno";
             agendarToolStripMenuItem.Click += agendarToolStripMenuItem_Click;
             // 
             // agendaToolStripMenuItem
             // 
             agendaToolStripMenuItem.Name = "agendaToolStripMenuItem";
-            agendaToolStripMenuItem.Size = new Size(180, 22);
+            agendaToolStripMenuItem.Size = new Size(146, 22);
             agendaToolStripMenuItem.Text = "Agenda";
             agendaToolStripMenuItem.Click += agendaToolStripMenuItem_Click;
             // 
@@ -173,6 +174,13 @@
             cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
             cerrarToolStripMenuItem.Size = new Size(150, 22);
             cerrarToolStripMenuItem.Text = "Cerrar";
+            // 
+            // personaToolStripMenuItem
+            // 
+            personaToolStripMenuItem.Name = "personaToolStripMenuItem";
+            personaToolStripMenuItem.Size = new Size(160, 22);
+            personaToolStripMenuItem.Text = "Persona";
+            personaToolStripMenuItem.Click += personaToolStripMenuItem_Click;
             // 
             // Inicio
             // 
@@ -210,5 +218,6 @@
         private ToolStripMenuItem historiaClinicaToolStripMenuItem;
         private ToolStripMenuItem especialidadesToolStripMenuItem2;
         private ToolStripMenuItem agendaToolStripMenuItem;
+        private ToolStripMenuItem personaToolStripMenuItem;
     }
 }

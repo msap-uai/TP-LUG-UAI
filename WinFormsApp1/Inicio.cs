@@ -45,6 +45,11 @@ namespace WinFormsApp1
             AbrirVista(new Especialidad());
         }
 
+        private void personaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AbrirVista(new Persona());
+        }
+
         private void pacientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AbrirVista(new Pacientes());
