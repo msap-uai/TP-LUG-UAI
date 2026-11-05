@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Cadena de conexion propia de cada equipo
+WinFormsApp1/App.config
