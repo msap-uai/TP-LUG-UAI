@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace BE
 {
@@ -7,43 +7,46 @@ namespace BE
         public int IdProfesional { get; private set; }
 
         public string Matricula{ get; set; }
-         // Las validaciones de matricula es mejor en BLL, ademas matricula puede tener Letras  
+         
+
+        private Especialidad especialidad;
+        private decimal arancel;
 
         public Especialidad Especialidad
         {
-            get;
+            get => especialidad;
 
             set
             {
-                // Verifica que la especialidad exista
+                // verifica que la especialidad exista
                 if (value == null)
                 {
-                    throw new ArgumentNullException(nameof(Especialidad), "Debe informar la especialidad del profesional.");
+                    throw new Exception( "debe informar la especialidad del profesional");
                 }
 
-                field = value;
+                especialidad = value;
             }
         }
 
         public decimal Arancel
         {
-            get;
+            get => arancel;
 
             set
             {
-                // El arancel debe ser un número positivo
+                // arancel debe ser positivo
                 if (value <= 0)
                 {
-                    throw new ArgumentException("El arancel debe ser un número positivo.");
+                    throw new Exception("el arancel debe ser un numero positivo.");
                 }
 
-                // Limite superior del arancel de 100 millones
-                if (value >= 100000000m)
+                //arancel max 1.000.000
+                if (value >= 1000000)
                 {
-                    throw new ArgumentException("El arancel debe ser menor a 100 millones.");
+                    throw new Exception("el arancel debe ser menor a 1 millon.");
                 }
 
-                field = value;
+                arancel = value;
             }
         }
 

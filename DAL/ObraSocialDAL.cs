@@ -1,17 +1,14 @@
 ﻿using BE;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using MPP;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class ObraSocialDAL
+    public static class ObraSocialDAL
     {
-        public void AgregarObraSocial(ObraSocial obraSocial)
+        public static void AgregarObraSocial(ObraSocial obraSocial)
         {
             try
             {
@@ -28,34 +25,36 @@ namespace DAL
             }
             catch (Exception)
             {
-                throw ;
+                throw;
             }
         }
 
-        public List<ObraSocial> ObtenerObrasSociales()
+        public static List<ObraSocial> ObtenerObrasSociales()
         {
             List<ObraSocial> lista= new List<ObraSocial>();
-            using (SqlConnection conexion=new SqlConnection(ConectionString.GetConectionString()))
+
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
             {
                 conexion.Open();
+
                 string query = "SELECT * FROM OBRA_SOCIAL";
-                using (SqlCommand comando= new SqlCommand(query, conexion))
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
                 {
                     using (SqlDataReader sqlDataReader = comando.ExecuteReader())
                     {
                         while (sqlDataReader.Read())
                         {
-                            
                             lista.Add(ObraSocialMapper.Map(sqlDataReader));
                         }
                     }
                 }
             }
 
-                return lista;
+            return lista;
         }
 
-        public void ModificarObraSocial(ObraSocial obraSocial)
+        public static void ModificarObraSocial(ObraSocial obraSocial)
         {
             using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
             {
@@ -78,7 +77,7 @@ namespace DAL
             }
         }
 
-        public void EliminarObraSocial(int idObraSocial)
+        public static void EliminarObraSocial(int idObraSocial)
         {
             using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
             {

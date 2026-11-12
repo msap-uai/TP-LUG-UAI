@@ -2,7 +2,7 @@
 
 **Materia:** Lenguajes de Última Generación (LUG)  
 **Institución:** Universidad Abierta Interamericana (UAI)  
-**Proyecto:** Sistema de Gestión para [Nombre de tu Negocio / Sistema]  
+**Proyecto:** Sistema de Gestión para un Policonsultorio Médico  
 
 ---
 
@@ -37,7 +37,9 @@ La documentación formal del sistema se encuentra adjunta en la entrega e incluy
 ## ⚙️ Herramientas de Trabajo en Equipo y Control de Versiones
 Para el desarrollo colaborativo y seguimiento del proyecto se implementaron las siguientes herramientas adicionales:
 - **Git / GitHub:** Control de versiones, persistencia de código y ramas de trabajo sincronizadas.
+  https://github.com/msap-uai/TP-LUG-UAI/
 - **Gestión de Tareas:** [Jira / Trello / Tares en GitHub Projects] para la organización de los sprints y asignación de tareas del equipo.
+  https://trello.com/b/qg2TuLyh/tp-lug
 
 ---
 

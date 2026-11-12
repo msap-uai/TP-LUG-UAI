@@ -4,11 +4,13 @@ namespace BE
 {
     public class Especialidad
     {
+        private string _descripcion;
+
         public int Id { get; private set; }
 
         public string Descripcion
         {
-            get;
+            get => _descripcion;
 
             set
             {
@@ -24,7 +26,7 @@ namespace BE
                     throw new ArgumentException("La descripción no puede superar los 60 caracteres.");
                 }
 
-                field = value;
+                _descripcion = value;
             }
         }
 
