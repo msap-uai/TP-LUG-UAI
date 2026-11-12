@@ -8,9 +8,19 @@ namespace BLL
 {
     public class ObraSocialBLL
     {
-       
-        
-        public List<ObraSocial> ObtenerObrasSociales() => ObraSocialDAL.ObtenerObrasSociales();
+
+
+        public List<ObraSocial> ObtenerObrasSociales()
+        {
+            try
+            {
+                return ObraSocialDAL.ObtenerObrasSociales();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener las obras sociales: " + ex.Message, ex);
+            }
+        }
 
         public void GuardarObraSocial(int? id, string nombre)
         {

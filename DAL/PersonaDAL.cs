@@ -8,24 +8,33 @@ namespace DAL
 {
     public static class PersonaDAL
     {
-        public static void AgregarPersona(Persona persona)
+        public static int AgregarPersona(Persona persona)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
 
-                string query = @"INSERT INTO PERSONA (NOMBRE, APELLIDO, DNI, TELEFONO, MAIL) VALUES (@NOMBRE, @APELLIDO, @DNI, @TELEFONO, @MAIL)";
-
-                using (SqlCommand comando = new SqlCommand(query, conexion))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    comando.Parameters.AddWithValue("@NOMBRE", persona.Nombre);
-                    comando.Parameters.AddWithValue("@APELLIDO", persona.Apellido);
-                    comando.Parameters.AddWithValue("@DNI", persona.Dni);
-                    comando.Parameters.AddWithValue("@TELEFONO", string.IsNullOrEmpty(persona.Telefono) ? (object)DBNull.Value : persona.Telefono);
-                    comando.Parameters.AddWithValue("@MAIL", string.IsNullOrEmpty(persona.Mail) ? (object)DBNull.Value : persona.Mail);
+                    conexion.Open();
 
-                    comando.ExecuteNonQuery();
+                    string query = @"INSERT INTO PERSONA (NOMBRE, APELLIDO, DNI, TELEFONO, MAIL) VALUES (@NOMBRE, @APELLIDO, @DNI, @TELEFONO, @MAIL); 
+                  SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@NOMBRE", persona.Nombre);
+                        comando.Parameters.AddWithValue("@APELLIDO", persona.Apellido);
+                        comando.Parameters.AddWithValue("@DNI", persona.Dni);
+                        comando.Parameters.AddWithValue("@TELEFONO", (object)persona.Telefono ?? DBNull.Value);
+                        comando.Parameters.AddWithValue("@MAIL", (object)persona.Mail ?? DBNull.Value);
+                        int idPersona = Convert.ToInt32(comando.ExecuteScalar());
+                        return idPersona;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar la persona: " + ex.Message, ex);
             }
         }
 
@@ -119,5 +128,42 @@ namespace DAL
                 }
             }
         }
+
+        public static Persona ObtenerPersonaPorDni(string dni)
+        {
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+                {
+                    conexion.Open();
+
+                    string query = @"SELECT ID_PERSONA, NOMBRE, APELLIDO, DNI, TELEFONO, MAIL
+                             FROM PERSONA WHERE DNI = @DNI";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@DNI", dni);
+
+                        using (SqlDataReader reader = comando.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return PersonaMapper.Map(reader);
+                            }
+                        }
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error al buscar la persona por DNI: " + ex.Message, ex);
+            }
+        }
+
+
+
     }
 }

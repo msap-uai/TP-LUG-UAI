@@ -9,69 +9,35 @@ namespace DAL
 {
    public static class PacienteDAL
     {
-        public static void AgregarPaciente(Paciente paciente)
+        public static void AgregarPaciente(Paciente paciente, int idPersona)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                SqlTransaction transaccion = conexion.BeginTransaction();
-
-                try
-                {//primero insertamos persona
-                    string queryPersona = @"INSERT INTO PERSONA (NOMBRE, APELLIDO, DNI, TELEFONO, MAIL)
-                        VALUES (@NOMBRE, @APELLIDO, @DNI, @TELEFONO, @MAIL);
-                        SELECT CAST(SCOPE_IDENTITY() AS INT);";
-
-                    int idPersona;
-
-                    using (SqlCommand comandoPersona = new SqlCommand(queryPersona, conexion, transaccion))
-                    {
-                        comandoPersona.Parameters.AddWithValue("@NOMBRE", paciente.Nombre);
-                        comandoPersona.Parameters.AddWithValue("@APELLIDO", paciente.Apellido);
-                        comandoPersona.Parameters.AddWithValue("@DNI", paciente.Dni);
-
-                        comandoPersona.Parameters.AddWithValue("@TELEFONO", (object)paciente.Telefono ?? DBNull.Value);
-
-                        comandoPersona.Parameters.AddWithValue("@MAIL",(object)paciente.Mail ?? DBNull.Value);
-
-                        idPersona = Convert.ToInt32(comandoPersona.ExecuteScalar());
-                    }
-
-                    // luego se inserta paciente
-                    string queryPaciente = @"INSERT INTO PACIENTE (ID_PERSONA, FECHA_NACIMIENTO, ID_OBRA_SOCIAL, NUMERO_AFILIADO)
-                        VALUES (@ID_PERSONA, @FECHA_NACIMIENTO, @ID_OBRA_SOCIAL, @NUMERO_AFILIADO)";
-
-                    using (SqlCommand comandoPaciente = new SqlCommand(queryPaciente, conexion, transaccion))
-                    {
-                        comandoPaciente.Parameters.AddWithValue("@ID_PERSONA", idPersona);
-
-                        comandoPaciente.Parameters.Add("@FECHA_NACIMIENTO", SqlDbType.Date).Value = paciente.FechaNacimiento.Date;
-
-                        if (paciente.ObraSocial != null)
-                        {
-                            comandoPaciente.Parameters.AddWithValue("@ID_OBRA_SOCIAL", paciente.ObraSocial.Id);
-                        }
-                        else
-                        {
-                            comandoPaciente.Parameters.AddWithValue("@ID_OBRA_SOCIAL", DBNull.Value);
-                        }
-
-                        comandoPaciente.Parameters.AddWithValue("@NUMERO_AFILIADO",(object)paciente.NumeroAfiliado ?? DBNull.Value);
-
-                        comandoPaciente.ExecuteNonQuery();
-                    }
-
-                    transaccion.Commit();
-                }
-                catch (Exception)
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    transaccion.Rollback();
-                    throw;
+                    conexion.Open();
+
+                    string query = @"INSERT INTO PACIENTE (ID_PERSONA, FECHA_NACIMIENTO, ID_OBRA_SOCIAL, NUMERO_AFILIADO)
+                VALUES (@ID_PERSONA, @FECHA_NACIMIENTO, @ID_OBRA_SOCIAL, @NUMERO_AFILIADO)";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@ID_PERSONA", idPersona);
+
+                        comando.Parameters.AddWithValue("@FECHA_NACIMIENTO", paciente.FechaNacimiento.Date);
+
+                        comando.Parameters.AddWithValue("@ID_OBRA_SOCIAL",paciente.ObraSocial != null ? (object)paciente.ObraSocial.Id: DBNull.Value);
+
+                        comando.Parameters.AddWithValue("@NUMERO_AFILIADO",(object)paciente.NumeroAfiliado ?? DBNull.Value); comando.ExecuteNonQuery();
+                    }
                 }
             }
-        }
 
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar el paciente: " + ex.Message, ex);
+            }
+        }
 
         public static List<Paciente> ObtenerPacientes()
         {
@@ -166,42 +132,37 @@ namespace DAL
 
                 return lista;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception("Error al obtener los pacientes por obra social: " + ex.Message, ex);
             }
         }
 
         public static void ModificarPaciente(Paciente paciente)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                SqlTransaction transaccion = conexion.BeginTransaction();
-
-                try
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
+                    conexion.Open();
+
                     // PRIMER UPDATE: PERSONA
                     string queryPersona = @"UPDATE PERSONA SET
-                    NOMBRE = @NOMBRE,
-                    APELLIDO = @APELLIDO,
-                    DNI = @DNI,
-                    TELEFONO = @TELEFONO,
-                    MAIL = @MAIL
-                     WHERE ID_PERSONA = @ID_PERSONA";
+                    NOMBRE = @NOMBRE, APELLIDO = @APELLIDO, DNI = @DNI, TELEFONO = @TELEFONO, MAIL = @MAIL
+                    WHERE ID_PERSONA = @ID_PERSONA AND EXISTS (SELECT 1 FROM PACIENTE WHERE ID_PACIENTE = @ID_PACIENTE AND ID_PERSONA = @ID_PERSONA)";
 
-                    using (SqlCommand comandoPersona = new SqlCommand(queryPersona, conexion, transaccion))
+                    using (SqlCommand comandoPersona = new SqlCommand(queryPersona, conexion))
                     {
                         comandoPersona.Parameters.AddWithValue("@NOMBRE", paciente.Nombre);
                         comandoPersona.Parameters.AddWithValue("@APELLIDO", paciente.Apellido);
                         comandoPersona.Parameters.AddWithValue("@DNI", paciente.Dni);
 
-                        comandoPersona.Parameters.AddWithValue("@TELEFONO",(object)paciente.Telefono ?? DBNull.Value);
+                        comandoPersona.Parameters.AddWithValue("@TELEFONO", (object)paciente.Telefono ?? DBNull.Value);
 
-                        comandoPersona.Parameters.AddWithValue("@MAIL",(object)paciente.Mail ?? DBNull.Value);
+                        comandoPersona.Parameters.AddWithValue("@MAIL", (object)paciente.Mail ?? DBNull.Value);
 
                         comandoPersona.Parameters.AddWithValue("@ID_PERSONA", paciente.Id);
+                        comandoPersona.Parameters.AddWithValue("@ID_PACIENTE", paciente.IdPaciente);
 
                         int filasAfectadas = comandoPersona.ExecuteNonQuery();
 
@@ -219,11 +180,11 @@ namespace DAL
                     WHERE ID_PACIENTE = @ID_PACIENTE
                     AND ID_PERSONA = @ID_PERSONA";
 
-                    using (SqlCommand comandoPaciente = new SqlCommand(queryPaciente, conexion, transaccion))
+                    using (SqlCommand comandoPaciente = new SqlCommand(queryPaciente, conexion))
                     {
-                        comandoPaciente.Parameters.Add("@FECHA_NACIMIENTO", SqlDbType.Date).Value = paciente.FechaNacimiento.Date;                    
+                        comandoPaciente.Parameters.AddWithValue("@FECHA_NACIMIENTO", paciente.FechaNacimiento.Date);
 
-                        comandoPaciente.Parameters.AddWithValue("@ID_OBRA_SOCIAL",paciente.ObraSocial != null? (object)paciente.ObraSocial.Id : DBNull.Value);
+                        comandoPaciente.Parameters.AddWithValue("@ID_OBRA_SOCIAL",paciente.ObraSocial != null? (object)paciente.ObraSocial.Id: DBNull.Value);
 
                         comandoPaciente.Parameters.AddWithValue("@NUMERO_AFILIADO",(object)paciente.NumeroAfiliado ?? DBNull.Value);
 
@@ -238,14 +199,11 @@ namespace DAL
                             throw new Exception("No se encontró el paciente que desea modificar.");
                         }
                     }
-
-                    transaccion.Commit();
                 }
-                catch (Exception)
-                {
-                    transaccion.Rollback();
-                    throw;
-                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el paciente: " + ex.Message, ex);
             }
         }
 
@@ -272,10 +230,41 @@ namespace DAL
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new Exception("Error al eliminar el paciente: " + ex.Message, ex);
             }
         }
+
+        public static bool ExistePacientePorIdPersona(int idPersona)
+        {
+            try
+            {
+                using (SqlConnection conexion =
+                    new SqlConnection(ConectionString.GetConectionString()))
+                {
+                    conexion.Open();
+
+                    string query = @"SELECT COUNT(*)
+                             FROM PACIENTE
+                             WHERE ID_PERSONA = @ID_PERSONA";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@ID_PERSONA", idPersona);
+
+                        int cantidad = Convert.ToInt32(comando.ExecuteScalar());
+
+                        return cantidad > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar si la persona ya es paciente: " + ex.Message, ex);
+            }
+        }
+
+
     }
 }

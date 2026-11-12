@@ -50,7 +50,7 @@ namespace BLL
             PersonaDAL.EliminarPersona(id);
         }
 
-        private static void ValidarNombre(string nombre)
+        public static void ValidarNombre(string nombre)
         {
             if (string.IsNullOrWhiteSpace(nombre))
             {
@@ -68,7 +68,7 @@ namespace BLL
             }
         }
 
-        private static void ValidarApellido(string apellido)
+        public static void ValidarApellido(string apellido)
         {
             if (string.IsNullOrWhiteSpace(apellido))
             {
@@ -86,7 +86,7 @@ namespace BLL
             }
         }
 
-        private static void ValidarDni(string dni)
+        public static void ValidarDni(string dni)
         {
             if (string.IsNullOrWhiteSpace(dni))
             {
@@ -107,7 +107,7 @@ namespace BLL
             }
         }
 
-        private static void ValidarTelefono(string telefono)
+        public static void ValidarTelefono(string telefono)
         {
             if (telefono.Length == 0)
             {
@@ -129,7 +129,7 @@ namespace BLL
             }
         }
 
-        private static void ValidarMail(string mail)
+        public static void ValidarMail(string mail)
         {
             if (mail.Length == 0)
             {

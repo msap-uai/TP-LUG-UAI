@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # Cadena de conexion propia de cada equipo
 WinFormsApp1/App.config
+/BaseDeDatos/Policonsultorio.sql
