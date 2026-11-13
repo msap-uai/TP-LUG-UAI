@@ -15,7 +15,7 @@ namespace UI
     public partial class Pacientes : Form
     {
         private PacienteBLL pacienteBLL = new PacienteBLL();
-        private Paciente pacienteSeleccionado = null;
+        private Paciente? pacienteSeleccionado = null;
         public Pacientes()
         {
             InitializeComponent();
@@ -26,11 +26,11 @@ namespace UI
             try
             {
                 // Obtener la obra social seleccionada
-                BE.ObraSocial obraSocialSeleccionada = null;
+                BE.ObraSocial? obraSocialSeleccionada = null;
 
                 if (cmbObraSocial.SelectedIndex != -1)
                 {
-                    obraSocialSeleccionada = (BE.ObraSocial)cmbObraSocial.SelectedItem;
+                    obraSocialSeleccionada = (BE.ObraSocial?)cmbObraSocial.SelectedItem;
                 }
 
                 // Crear el objeto Paciente
@@ -169,11 +169,11 @@ namespace UI
                 }
 
                 // Obtener la obra social seleccionada
-                BE.ObraSocial obraSocialSeleccionada = null;
+                BE.ObraSocial?   obraSocialSeleccionada = null;
 
                 if (cmbObraSocial.SelectedIndex != -1)
                 {
-                    obraSocialSeleccionada = (BE.ObraSocial)cmbObraSocial.SelectedItem;
+                    obraSocialSeleccionada = (BE.ObraSocial?)cmbObraSocial.SelectedItem;
                 }
 
                 // Crear el paciente con sus identificadores originales

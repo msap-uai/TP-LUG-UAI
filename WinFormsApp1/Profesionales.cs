@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using BE;
+﻿using BE;
 using BLL;
 
 namespace UI
@@ -16,16 +7,12 @@ namespace UI
     {
         private BE.Profesional? instancia = null;
         private int? idProfesional = null;
-        private int? idPersona = null;
         private ProfesionalBLL profesionalBll = new ProfesionalBLL();
 
         public Profesionales()
         {
             InitializeComponent();
             ConfigurarDataGrid();
-        }
-        private void Profesionales_Load(object sender, EventArgs e)
-        {
             CargarEspecialidades();
             MostrarProfesionales();
             ModoNuevoRegistro();
@@ -58,7 +45,35 @@ namespace UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar las especialidades");
+                MessageBox.Show($"Error al cargar las especialidades: {ex.Message}");
+            }
+        }
+
+        private void CargarPersonas(BE.Persona? persona)
+        {
+            try
+            {
+                List<BE.Persona> personas = PersonaBLL.ObtenerPersonasNoProfesionales();
+
+                if (persona != null)
+                {
+                    personas.Insert(0, persona);
+                }
+
+                comboBoxPersona.DataSource = personas;
+
+                if (persona != null)
+                {
+                    comboBoxPersona.SelectedIndex = 0;
+                }
+                else
+                {
+                    comboBoxPersona.SelectedIndex = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar las personas: {ex.Message}");
             }
         }
 
@@ -72,7 +87,7 @@ namespace UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar la lista de profesionales");
+                MessageBox.Show($"Error al cargar la lista de profesionales: {ex.Message}");
             }
         }
 
@@ -80,18 +95,14 @@ namespace UI
         {
             LimpiarSeleccion();
 
-            textBox10.Clear(); // nombre
-            textBox9.Clear();  // apellido
-            textBox8.Clear();  // DNI
-            textBox7.Clear();  // telefono
-            textBox6.Clear();  // mail
+            CargarPersonas(null);
+            comboBoxPersona.Enabled = true;
             textBox1.Clear();  // matrícula
             comboBox1.SelectedIndex = -1;  // especialidad
             textBox2.Clear();  // arancel
 
             instancia = null;
             idProfesional = null;
-            idPersona = null;
         }
 
         private void LimpiarSeleccion()
@@ -107,17 +118,13 @@ namespace UI
                 return;
             }
 
-            BE.Profesional profesional = (BE.Profesional)dataGridView1.CurrentRow.DataBoundItem;
+            BE.Profesional profesional = (Profesional)dataGridView1.CurrentRow.DataBoundItem;
 
             instancia = profesional;
             idProfesional = profesional.IdProfesional;
-            idPersona = profesional.Id;
 
-            textBox10.Text = profesional.Nombre;
-            textBox9.Text = profesional.Apellido;
-            textBox8.Text = profesional.Dni;
-            textBox7.Text = profesional.Telefono;
-            textBox6.Text = profesional.Mail;
+            CargarPersonas(profesional);
+            comboBoxPersona.Enabled = false;
             textBox1.Text = profesional.Matricula;
 
             if (profesional.Especialidad != null)
@@ -131,28 +138,23 @@ namespace UI
 
             textBox2.Text = profesional.Arancel.ToString();
         }
-        //BOTONES
+
         private void button1_Click(object? sender, EventArgs e)
         {
-            //Nuevo
             ModoNuevoRegistro();
         }
 
         private void button2_Click(object? sender, EventArgs e)
         {
-            // Guardar
-            string nombre = textBox10.Text;
-            string apellido = textBox9.Text;
-            string dni = textBox8.Text;
-            string telefono = textBox7.Text;
-            string mail = textBox6.Text;
             string matricula = textBox1.Text;
 
-            if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(apellido) || string.IsNullOrWhiteSpace(dni))
+            if (comboBoxPersona.SelectedItem == null)
             {
-                MessageBox.Show("Debe completar Nombre, Apellido y DNI.");
+                MessageBox.Show("Debe seleccionar una persona.");
                 return;
             }
+
+            BE.Persona persona = (BE.Persona)comboBoxPersona.SelectedItem;
 
             if (string.IsNullOrWhiteSpace(matricula))
             {
@@ -176,17 +178,16 @@ namespace UI
 
             try
             {
-                int personaId = idPersona ?? 0;
                 int profesionalId = idProfesional ?? 0;
 
                 Profesional profesional = new Profesional(
-                    personaId,
+                    persona.Id,
                     profesionalId,
-                    nombre,
-                    apellido,
-                    dni,
-                    telefono,
-                    mail,
+                    persona.Nombre,
+                    persona.Apellido,
+                    persona.Dni,
+                    persona.Telefono,
+                    persona.Mail,
                     matricula,
                     especialidad,
                     arancel
@@ -194,10 +195,11 @@ namespace UI
 
                 profesionalBll.GuardarProfesional(profesional);
 
-                MessageBox.Show("Profesional guardado correctamente");
-
                 MostrarProfesionales();
                 ModoNuevoRegistro();
+
+                MessageBox.Show("Profesional guardado correctamente");
+
             }
             catch (Exception ex)
             {
@@ -207,10 +209,10 @@ namespace UI
 
         private void button3_Click(object? sender, EventArgs e)
         {
-            // Botón Eliminar
             if (idProfesional == null)
             {
                 MessageBox.Show("debe seleccionar un profesional de la grilla para eliminar.");
+
                 return;
             }
 
@@ -218,10 +220,10 @@ namespace UI
             {
                 profesionalBll.EliminarProfesional(idProfesional.Value);
 
-                MessageBox.Show("profesional eliminado");
-
                 MostrarProfesionales();
                 ModoNuevoRegistro();
+
+                MessageBox.Show("profesional eliminado");
             }
             catch (Exception ex)
             {

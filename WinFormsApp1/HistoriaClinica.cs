@@ -48,8 +48,7 @@ namespace UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //guardar consulta
-            Turno turno = null;
+            Turno? turno = null;
 
             if (dataGridView1.CurrentRow != null)
             {

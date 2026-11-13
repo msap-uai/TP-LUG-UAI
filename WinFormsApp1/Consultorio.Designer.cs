@@ -40,14 +40,14 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(428, 65);
+            dataGridView1.Location = new Point(340, 40);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(317, 150);
+            dataGridView1.Size = new Size(291, 335);
             dataGridView1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(139, 245);
+            button1.Location = new Point(128, 86);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 1;
@@ -57,7 +57,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(238, 245);
+            button2.Location = new Point(236, 86);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 2;
@@ -67,7 +67,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(38, 245);
+            button3.Location = new Point(20, 86);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
             button3.TabIndex = 3;
@@ -77,15 +77,15 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(230, 145);
+            textBox1.Location = new Point(20, 40);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(100, 23);
+            textBox1.Size = new Size(291, 23);
             textBox1.TabIndex = 4;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(22, 153);
+            label1.Location = new Point(20, 22);
             label1.Name = "label1";
             label1.Size = new Size(114, 15);
             label1.TabIndex = 5;
@@ -95,7 +95,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(654, 392);
             Controls.Add(label1);
             Controls.Add(textBox1);
             Controls.Add(button3);

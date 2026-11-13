@@ -27,6 +27,11 @@ namespace BLL
                 throw new Exception("El profesional no puede ser nulo.");
             }
 
+            if (profesional.Id == 0)
+            {
+                throw new Exception("Debe seleccionar una persona.");
+            }
+
             if (string.IsNullOrWhiteSpace(profesional.Matricula))
             {
                 throw new Exception("La matrícula es obligatoria.");
@@ -42,15 +47,15 @@ namespace BLL
                 throw new Exception("El arancel debe ser un importe mayor a cero.");
             }
 
-            // Validar DNI y Matrícula duplicada
+            // Validar que la persona no sea ya profesional y que la matrícula no esté duplicada
             List<Profesional> existentes = profesionalDAL.ObtenerProfesionales();
             foreach (var prof in existentes)
             {
                 if (prof.IdProfesional != profesional.IdProfesional)
                 {
-                    if (prof.Dni == profesional.Dni)
+                    if (prof.Id == profesional.Id)
                     {
-                        throw new Exception("ya existe un profesional con ese DNI.");
+                        throw new Exception("la persona seleccionada ya es profesional.");
                     }
 
                     if (prof.Matricula == profesional.Matricula)

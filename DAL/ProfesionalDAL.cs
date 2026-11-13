@@ -18,42 +18,20 @@ namespace DAL
 
                 try
                 {
-                    // PRIMER INSERT: PERSONA
-                    string queryPersona = @"INSERT INTO PERSONA (NOMBRE, APELLIDO, DNI, TELEFONO, MAIL)
-                        VALUES (@NOMBRE, @APELLIDO, @DNI, @TELEFONO, @MAIL);
-                        SELECT CAST(SCOPE_IDENTITY() AS INT);";
-
-                    int idPersona;
-
-                    using (SqlCommand comandoPersona = new SqlCommand(queryPersona, conexion, transaccion))
-                    {
-                        comandoPersona.Parameters.AddWithValue("@NOMBRE", profesional.Nombre);
-                        comandoPersona.Parameters.AddWithValue("@APELLIDO", profesional.Apellido);
-                        comandoPersona.Parameters.AddWithValue("@DNI", profesional.Dni);
-
-                        comandoPersona.Parameters.AddWithValue("@TELEFONO",(object)profesional.Telefono ?? DBNull.Value);
-
-                        comandoPersona.Parameters.AddWithValue("@MAIL",(object)profesional.Mail ?? DBNull.Value);
-
-                        idPersona = Convert.ToInt32(comandoPersona.ExecuteScalar());
-                    }
-
-                    // SEGUNDO INSERT: PROFESIONAL
-
-                    string queryProfesional = @"INSERT INTO PROFESIONAL (ID_PERSONA, MATRICULA, ID_ESPECIALIDAD, ARANCEL)
+                    string query = @"INSERT INTO PROFESIONAL (ID_PERSONA, MATRICULA, ID_ESPECIALIDAD, ARANCEL)
                         VALUES (@ID_PERSONA, @MATRICULA, @ID_ESPECIALIDAD, @ARANCEL)";
 
-                    using (SqlCommand comandoProfesional = new SqlCommand(queryProfesional, conexion, transaccion))
+                    using (SqlCommand comando = new SqlCommand(query, conexion, transaccion))
                     {
-                        comandoProfesional.Parameters.AddWithValue("@ID_PERSONA", idPersona);
+                        comando.Parameters.AddWithValue("@ID_PERSONA", profesional.Id);
 
-                        comandoProfesional.Parameters.AddWithValue("@MATRICULA", profesional.Matricula);
+                        comando.Parameters.AddWithValue("@MATRICULA", profesional.Matricula);
 
-                        comandoProfesional.Parameters.AddWithValue("@ID_ESPECIALIDAD", profesional.Especialidad.Id);
+                        comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", profesional.Especialidad.Id);
 
-                        comandoProfesional.Parameters.AddWithValue("@ARANCEL", profesional.Arancel);
+                        comando.Parameters.AddWithValue("@ARANCEL", profesional.Arancel);
 
-                        comandoProfesional.ExecuteNonQuery();
+                        comando.ExecuteNonQuery();
                     }
 
                     transaccion.Commit();
@@ -168,58 +146,26 @@ namespace DAL
 
                 try
                 {
-                    // PRIMER UPDATE: PERSONA
-                    string queryPersona = @"UPDATE PERSONA SET
-                    NOMBRE = @NOMBRE,
-                    APELLIDO = @APELLIDO,
-                    DNI = @DNI,
-                    TELEFONO = @TELEFONO,
-                    MAIL = @MAIL
-                    WHERE ID_PERSONA = @ID_PERSONA";
+                    string query = @"UPDATE PROFESIONAL SET
+                        MATRICULA = @MATRICULA,
+                        ID_ESPECIALIDAD = @ID_ESPECIALIDAD,
+                        ARANCEL = @ARANCEL
+                        WHERE ID_PROFESIONAL = @ID_PROFESIONAL
+                        AND ID_PERSONA = @ID_PERSONA";
 
-                    using (SqlCommand comandoPersona = new SqlCommand(queryPersona, conexion, transaccion))
+                    using (SqlCommand comando = new SqlCommand(query, conexion, transaccion))
                     {
-                        comandoPersona.Parameters.AddWithValue("@NOMBRE", profesional.Nombre);
+                        comando.Parameters.AddWithValue("@MATRICULA", profesional.Matricula);
 
-                        comandoPersona.Parameters.AddWithValue("@APELLIDO", profesional.Apellido);
+                        comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", profesional.Especialidad.Id);
 
-                        comandoPersona.Parameters.AddWithValue("@DNI", profesional.Dni);
+                        comando.Parameters.AddWithValue("@ARANCEL", profesional.Arancel);
 
-                        comandoPersona.Parameters.AddWithValue("@TELEFONO",(object)profesional.Telefono ?? DBNull.Value);
+                        comando.Parameters.AddWithValue("@ID_PROFESIONAL", profesional.IdProfesional);
 
-                        comandoPersona.Parameters.AddWithValue("@MAIL",(object)profesional.Mail ?? DBNull.Value);
+                        comando.Parameters.AddWithValue("@ID_PERSONA", profesional.Id);
 
-                        comandoPersona.Parameters.AddWithValue("@ID_PERSONA", profesional.Id);
-
-                        int filasAfectadas = comandoPersona.ExecuteNonQuery();
-
-                        if (filasAfectadas == 0)
-                        {
-                            throw new Exception("No se encontró la persona que desea modificar.");
-                        }
-                    }
-
-                    // SEGUNDO UPDATE: PROFESIONAL 
-                    string queryProfesional = @"UPDATE PROFESIONAL SET
-                    MATRICULA = @MATRICULA,
-                    ID_ESPECIALIDAD = @ID_ESPECIALIDAD,
-                    ARANCEL = @ARANCEL
-                    WHERE ID_PROFESIONAL = @ID_PROFESIONAL
-                    AND ID_PERSONA = @ID_PERSONA";
-
-                    using (SqlCommand comandoProfesional = new SqlCommand(queryProfesional, conexion, transaccion))
-                    {
-                        comandoProfesional.Parameters.AddWithValue("@MATRICULA", profesional.Matricula);
-
-                        comandoProfesional.Parameters.AddWithValue("@ID_ESPECIALIDAD", profesional.Especialidad.Id);
-
-                        comandoProfesional.Parameters.AddWithValue("@ARANCEL", profesional.Arancel);
-
-                        comandoProfesional.Parameters.AddWithValue("@ID_PROFESIONAL", profesional.IdProfesional);
-
-                        comandoProfesional.Parameters.AddWithValue("@ID_PERSONA", profesional.Id);
-
-                        int filasAfectadas = comandoProfesional.ExecuteNonQuery();
+                        int filasAfectadas = comando.ExecuteNonQuery();
 
                         if (filasAfectadas == 0)
                         {
