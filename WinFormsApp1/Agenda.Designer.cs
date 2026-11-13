@@ -41,6 +41,7 @@
             button1.TabIndex = 0;
             button1.Text = "Cancelar";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // dataGridView1
             // 
@@ -59,6 +60,7 @@
             Controls.Add(button1);
             Name = "Agenda";
             Text = "Agenda";
+            Load += Agenda_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
