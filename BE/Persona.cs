@@ -149,6 +149,11 @@ namespace BE
             }
         }
 
+        public override string ToString()
+        {
+            return Apellido + ", " + Nombre;
+        }
+
         public Persona()
         {
 

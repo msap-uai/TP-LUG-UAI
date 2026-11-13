@@ -63,6 +63,34 @@ namespace DAL
             return lista;
         }
 
+        public static List<Persona> ObtenerPersonasNoProfesionales()
+        {
+            List<Persona> lista = new List<Persona>();
+
+            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            {
+                conexion.Open();
+
+                string query = @"SELECT PE.ID_PERSONA, PE.NOMBRE, PE.APELLIDO, PE.DNI, PE.TELEFONO, PE.MAIL
+                    FROM PERSONA PE
+                    WHERE NOT EXISTS (SELECT 1 FROM PROFESIONAL PR WHERE PR.ID_PERSONA = PE.ID_PERSONA)
+                    ORDER BY PE.APELLIDO, PE.NOMBRE";
+
+                using (SqlCommand comando = new SqlCommand(query, conexion))
+                {
+                    using (SqlDataReader sqlDataReader = comando.ExecuteReader())
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            lista.Add(PersonaMapper.Map(sqlDataReader));
+                        }
+                    }
+                }
+            }
+
+            return lista;
+        }
+
         public static void ModificarPersona(Persona persona)
         {
             using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
