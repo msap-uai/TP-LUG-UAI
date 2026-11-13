@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace BE
 {
@@ -60,6 +60,16 @@ namespace BE
             Matricula = matricula;
             Especialidad = especialidad;
             Arancel = arancel;
+        }
+
+        public override string ObtenerDatosPersona()
+        {
+            return "Dr /Dra " + Apellido + ", " + Nombre + " (Mat: " + Matricula + ") - " + Especialidad;
+        }
+
+        public override decimal CalcularCostoFinal(decimal arancelBase)
+        {
+            return Arancel;
         }
     }
 }

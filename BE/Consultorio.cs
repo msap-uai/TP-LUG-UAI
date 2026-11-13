@@ -17,6 +17,11 @@ namespace BE
             Numero = numero;
         }
 
+        public string Descripcion
+        {
+            get { return "Consultorio " + Numero; }
+        }
+
         public override string ToString()
         {
             return "Consultorio " + Numero;

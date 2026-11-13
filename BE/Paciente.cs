@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace BE
 {
@@ -54,6 +54,23 @@ namespace BE
             FechaNacimiento = fechaNacimiento;
             ObraSocial = obraSocial;
             NumeroAfiliado = numeroAfiliado;
+        }
+
+        public override string ObtenerDatosPersona()
+        {
+            // condicional para saber si tiene obra social o no
+            string os = ObraSocial != null ? ObraSocial.Nombre : "Particular";
+            return Apellido + ", " + Nombre + " (DNI: " + Dni + ") - OS: " + os;
+        }
+
+        public override decimal CalcularCostoFinal(decimal arancelBase)
+        {
+            // si tiene obra social paga la mitad, si es particular paga todo
+            if (ObraSocial != null)
+            {
+                return arancelBase * 0.5m;
+            }
+            return arancelBase;
         }
     }
 }

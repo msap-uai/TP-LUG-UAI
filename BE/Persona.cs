@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace BE
 {
@@ -149,6 +149,11 @@ namespace BE
             }
         }
 
+        public string NombreCompleto
+        {
+            get { return Apellido + ", " + Nombre; }
+        }
+
         public override string ToString()
         {
             return Apellido + ", " + Nombre;
@@ -166,6 +171,16 @@ namespace BE
             Dni = dni;
             Telefono = telefono;
             Mail = mail;
+        }
+
+        public virtual string ObtenerDatosPersona()
+        {
+            return Apellido + ", " + Nombre + " (DNI: " + Dni + ")";
+        }
+
+        public virtual decimal CalcularCostoFinal(decimal arancelBase)
+        {
+            return arancelBase;
         }
     }
 }
