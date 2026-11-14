@@ -189,5 +189,33 @@ namespace DAL
             }
         }
 
+        public static bool ExisteTurnoPorPaciente(int idPaciente)
+        {
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+                {
+                    conexion.Open();
+
+                    string query = @"SELECT COUNT(*) FROM TURNO
+                             WHERE ID_PACIENTE = @ID_PACIENTE";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@ID_PACIENTE", idPaciente);
+
+                        int cantidad = (int)comando.ExecuteScalar();
+
+                        return cantidad > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error al consultar los turnos del paciente: " + ex.Message, ex);
+            }
+        }
+
     }
 }

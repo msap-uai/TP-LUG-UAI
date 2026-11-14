@@ -189,11 +189,15 @@ namespace BLL
         {
             try
             {
-                using (var trx = new TransactionScope())
-                {
-                    if (idPaciente <= 0)
+                if (idPaciente <= 0)
                     {
                         throw new Exception("Debe seleccionar un paciente válido para eliminar.");
+                    }
+                using (var trx = new TransactionScope())
+                {
+                    if (TurnoDAL.ExisteTurnoPorPaciente(idPaciente))
+                    {
+                        throw new Exception("No se puede eliminar al paciente porque tiene turnos registrados.");
                     }
 
                     PacienteDAL.EliminarPaciente(idPaciente);
