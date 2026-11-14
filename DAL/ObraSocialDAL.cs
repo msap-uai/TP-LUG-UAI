@@ -31,71 +31,92 @@ namespace DAL
 
         public static List<ObraSocial> ObtenerObrasSociales()
         {
-            List<ObraSocial> lista= new List<ObraSocial>();
-
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
+                List<ObraSocial> lista= new List<ObraSocial>();
 
-                string query = "SELECT * FROM OBRA_SOCIAL";
-
-                using (SqlCommand comando = new SqlCommand(query, conexion))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    using (SqlDataReader sqlDataReader = comando.ExecuteReader())
+                    conexion.Open();
+
+                    string query = "SELECT * FROM OBRA_SOCIAL";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
-                        while (sqlDataReader.Read())
+                        using (SqlDataReader sqlDataReader = comando.ExecuteReader())
                         {
-                            lista.Add(ObraSocialMapper.Map(sqlDataReader));
+                            while (sqlDataReader.Read())
+                            {
+                                lista.Add(ObraSocialMapper.Map(sqlDataReader));
+                            }
                         }
                     }
                 }
-            }
 
-            return lista;
+                return lista;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public static void ModificarObraSocial(ObraSocial obraSocial)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                string query = @"UPDATE OBRA_SOCIAL SET NOMBRE = @NOMBRE WHERE ID_OBRA_SOCIAL = @ID_OBRA_SOCIAL";
-
-                using (SqlCommand comando = new SqlCommand(query, conexion))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    comando.Parameters.AddWithValue("@NOMBRE", obraSocial.Nombre);
-                    comando.Parameters.AddWithValue("@ID_OBRA_SOCIAL", obraSocial.Id);
+                    conexion.Open();
 
-                    int filasAfectadas = comando.ExecuteNonQuery();
+                    string query = @"UPDATE OBRA_SOCIAL SET NOMBRE = @NOMBRE WHERE ID_OBRA_SOCIAL = @ID_OBRA_SOCIAL";
 
-                    if (filasAfectadas == 0)
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
-                        throw new Exception("No se encontró la obra social que desea modificar.");
+                        comando.Parameters.AddWithValue("@NOMBRE", obraSocial.Nombre);
+                        comando.Parameters.AddWithValue("@ID_OBRA_SOCIAL", obraSocial.Id);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+
+                        if (filasAfectadas == 0)
+                        {
+                            throw new Exception("No se encontró la obra social que desea modificar.");
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
         public static void EliminarObraSocial(int idObraSocial)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                string query = @"DELETE FROM OBRA_SOCIAL WHERE ID_OBRA_SOCIAL = @ID_OBRA_SOCIAL";
-
-                using (SqlCommand comando = new SqlCommand(query, conexion))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    comando.Parameters.AddWithValue("@ID_OBRA_SOCIAL", idObraSocial);
+                    conexion.Open();
 
-                    int filasAfectadas = comando.ExecuteNonQuery();
+                    string query = @"DELETE FROM OBRA_SOCIAL WHERE ID_OBRA_SOCIAL = @ID_OBRA_SOCIAL";
 
-                    if (filasAfectadas == 0)
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
-                        throw new Exception("No se encontró la obra social que desea eliminar.");
+                        comando.Parameters.AddWithValue("@ID_OBRA_SOCIAL", idObraSocial);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+
+                        if (filasAfectadas == 0)
+                        {
+                            throw new Exception("No se encontró la obra social que desea eliminar.");
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

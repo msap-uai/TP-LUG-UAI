@@ -94,46 +94,53 @@ namespace DAL
 
         public static List<Profesional> ObtenerProfesionalesPorEspecialidad(int idEspecialidad)
         {
-            List<Profesional> lista = new List<Profesional>();
-
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
+                List<Profesional> lista = new List<Profesional>();
 
-                string query = @"SELECT
-                PR.ID_PROFESIONAL,
-                PE.ID_PERSONA,
-                PE.NOMBRE,
-                PE.APELLIDO,
-                PE.DNI,
-                PE.TELEFONO,
-                PE.MAIL,
-                PR.MATRICULA,
-                PR.ID_ESPECIALIDAD,
-                ES.DESCRIPCION,
-                PR.ARANCEL
-                FROM PROFESIONAL PR
-                INNER JOIN PERSONA PE
-                ON PR.ID_PERSONA = PE.ID_PERSONA
-                INNER JOIN ESPECIALIDAD ES
-                ON PR.ID_ESPECIALIDAD = ES.ID_ESPECIALIDAD
-                WHERE PR.ID_ESPECIALIDAD = @ID_ESPECIALIDAD";
-
-                using (SqlCommand comando = new SqlCommand(query, conexion))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", idEspecialidad);
+                    conexion.Open();
 
-                    using (SqlDataReader sqlDataReader = comando.ExecuteReader())
+                    string query = @"SELECT
+                    PR.ID_PROFESIONAL,
+                    PE.ID_PERSONA,
+                    PE.NOMBRE,
+                    PE.APELLIDO,
+                    PE.DNI,
+                    PE.TELEFONO,
+                    PE.MAIL,
+                    PR.MATRICULA,
+                    PR.ID_ESPECIALIDAD,
+                    ES.DESCRIPCION,
+                    PR.ARANCEL
+                    FROM PROFESIONAL PR
+                    INNER JOIN PERSONA PE
+                    ON PR.ID_PERSONA = PE.ID_PERSONA
+                    INNER JOIN ESPECIALIDAD ES
+                    ON PR.ID_ESPECIALIDAD = ES.ID_ESPECIALIDAD
+                    WHERE PR.ID_ESPECIALIDAD = @ID_ESPECIALIDAD";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
-                        while (sqlDataReader.Read())
+                        comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", idEspecialidad);
+
+                        using (SqlDataReader sqlDataReader = comando.ExecuteReader())
                         {
-                            lista.Add(ProfesionalMapper.Map(sqlDataReader));
+                            while (sqlDataReader.Read())
+                            {
+                                lista.Add(ProfesionalMapper.Map(sqlDataReader));
+                            }
                         }
                     }
                 }
-            }
 
-            return lista;
+                return lista;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void ModificarProfesional(Profesional profesional)

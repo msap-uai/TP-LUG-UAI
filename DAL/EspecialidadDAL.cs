@@ -68,24 +68,31 @@ namespace DAL
 
         public static void ModificarEspecialidad(Especialidad especialidad)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                string query = @"UPDATE ESPECIALIDAD SET DESCRIPCION = @DESCRIPCION WHERE ID_ESPECIALIDAD = @ID_ESPECIALIDAD";
-
-                using (SqlCommand comando = new SqlCommand(query, conexion))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    comando.Parameters.AddWithValue("@DESCRIPCION", especialidad.Descripcion);
-                    comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", especialidad.Id);
+                    conexion.Open();
 
-                    int filasAfectadas = comando.ExecuteNonQuery();
+                    string query = @"UPDATE ESPECIALIDAD SET DESCRIPCION = @DESCRIPCION WHERE ID_ESPECIALIDAD = @ID_ESPECIALIDAD";
 
-                    if (filasAfectadas == 0)
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
-                        throw new Exception("No se encontró la especialidad que desea modificar.");
+                        comando.Parameters.AddWithValue("@DESCRIPCION", especialidad.Descripcion);
+                        comando.Parameters.AddWithValue("@ID_ESPECIALIDAD", especialidad.Id);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+
+                        if (filasAfectadas == 0)
+                        {
+                            throw new Exception("No se encontró la especialidad que desea modificar.");
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
