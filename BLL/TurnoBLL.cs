@@ -14,10 +14,77 @@ namespace BLL
             return turnos.ObtenerTurnos();
         }
 
+        public List<string> ObtenerHorariosOcupados(int idProfesional, int idConsultorio, int idPaciente, DateTime fecha, int idTurnoExcluido)
+        {
+            List<string> ocupados = new List<string>();
+
+            foreach (var t in turnos.ObtenerTurnos())
+            {
+                if (t.Id == idTurnoExcluido)
+                {
+                    continue;
+                }
+
+                if (t.Estado == EstadoTurno.Cancelado)
+                {
+                    continue;
+                }
+
+                if (t.FechaHora.Date != fecha.Date)
+                {
+                    continue;
+                }
+
+                bool mismoProfesional = false;
+
+                if (t.Profesional != null)
+                {
+                    if (t.Profesional.IdProfesional == idProfesional)
+                    {
+                        mismoProfesional = true;
+                    }
+                }
+
+                bool mismoConsultorio = false;
+
+                if (t.Consultorio != null)
+                {
+                    if (t.Consultorio.Id == idConsultorio)
+                    {
+                        mismoConsultorio = true;
+                    }
+                }
+
+                bool mismoPaciente = false;
+
+                if (t.Paciente != null)
+                {
+                    if (t.Paciente.IdPaciente == idPaciente)
+                    {
+                        mismoPaciente = true;
+                    }
+                }
+
+                if (mismoProfesional || mismoConsultorio || mismoPaciente)
+                {
+                    ocupados.Add(t.FechaHora.ToString("HH:mm"));
+                }
+            }
+
+            return ocupados;
+        }
+
         public void AgregarTurno(Turno turno)
         {
-            ValidarTurno(turno);
-            turnos.AgregarTurno(turno);
+            try
+            { 
+                ValidarTurno(turno);
+                turnos.AgregarTurno(turno);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al agregar el turno: " + ex.Message);
+            }
         }
 
         public void ModificarTurno(Turno turno)
@@ -140,6 +207,11 @@ namespace BLL
                     if (t.Consultorio != null && t.Consultorio.Id == turno.Consultorio.Id)
                     {
                         throw new Exception("El consultorio ya esta ocupado en ese horario.");
+                    }
+
+                    if (t.Paciente != null && t.Paciente.IdPaciente == turno.Paciente.IdPaciente)
+                    {
+                        throw new Exception("El paciente ya tiene un turno asignado en ese horario.");
                     }
                 }
             }

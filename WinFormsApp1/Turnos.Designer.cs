@@ -48,40 +48,40 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(128, 38);
+            comboBox1.Location = new Point(20, 40);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(200, 23);
+            comboBox1.Size = new Size(291, 23);
             comboBox1.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(49, 46);
+            label1.Location = new Point(20, 22);
             label1.Name = "label1";
-            label1.Size = new Size(57, 15);
+            label1.Size = new Size(52, 15);
             label1.TabIndex = 2;
-            label1.Text = "Pacientes";
+            label1.Text = "Paciente";
             // 
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(128, 88);
+            comboBox2.Location = new Point(20, 94);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(200, 23);
+            comboBox2.Size = new Size(291, 23);
             comboBox2.TabIndex = 3;
             // 
             // comboBox3
             // 
             comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(128, 158);
+            comboBox3.Location = new Point(20, 148);
             comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(200, 23);
+            comboBox3.Size = new Size(291, 23);
             comboBox3.TabIndex = 4;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(49, 96);
+            label2.Location = new Point(20, 76);
             label2.Name = "label2";
             label2.Size = new Size(66, 15);
             label2.TabIndex = 5;
@@ -90,7 +90,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(49, 166);
+            label3.Location = new Point(20, 130);
             label3.Name = "label3";
             label3.Size = new Size(69, 15);
             label3.TabIndex = 6;
@@ -98,22 +98,22 @@
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(128, 215);
+            dateTimePicker1.Location = new Point(20, 202);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
+            dateTimePicker1.Size = new Size(291, 23);
             dateTimePicker1.TabIndex = 7;
             // 
             // comboBox4
             // 
             comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(128, 263);
+            comboBox4.Location = new Point(20, 256);
             comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(121, 23);
+            comboBox4.Size = new Size(291, 23);
             comboBox4.TabIndex = 8;
             // 
             // button1
             // 
-            button1.Location = new Point(43, 325);
+            button1.Location = new Point(20, 302);
             button1.Name = "button1";
             button1.Size = new Size(75, 23);
             button1.TabIndex = 9;
@@ -123,7 +123,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(139, 325);
+            button2.Location = new Point(128, 302);
             button2.Name = "button2";
             button2.Size = new Size(75, 23);
             button2.TabIndex = 10;
@@ -133,7 +133,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(241, 325);
+            button3.Location = new Point(236, 302);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
             button3.TabIndex = 11;
@@ -144,7 +144,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(49, 223);
+            label4.Location = new Point(20, 184);
             label4.Name = "label4";
             label4.Size = new Size(38, 15);
             label4.TabIndex = 12;
@@ -153,7 +153,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(49, 269);
+            label5.Location = new Point(20, 238);
             label5.Name = "label5";
             label5.Size = new Size(33, 15);
             label5.TabIndex = 13;
@@ -162,16 +162,16 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(385, 31);
+            dataGridView1.Location = new Point(340, 40);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(403, 381);
+            dataGridView1.Size = new Size(440, 335);
             dataGridView1.TabIndex = 14;
             // 
             // Turnos
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(800, 392);
             Controls.Add(dataGridView1);
             Controls.Add(label5);
             Controls.Add(label4);

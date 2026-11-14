@@ -14,6 +14,7 @@ namespace UI
         private ConsultorioBLL consultorioBll = new ConsultorioBLL();
 
         private BE.Turno? turnoSeleccionado = null;
+        private bool cargando = false;
 
         public Turnos()
         {
@@ -28,16 +29,22 @@ namespace UI
 
             Load += Turnos_Load;
 
+            comboBox1.SelectedIndexChanged += CambioSeleccion;
+            comboBox2.SelectedIndexChanged += CambioSeleccion;
+            comboBox3.SelectedIndexChanged += CambioSeleccion;
+            dateTimePicker1.ValueChanged += CambioSeleccion;
+
             ConfigurarDataGrid();
         }
 
         private void Turnos_Load(object? sender, EventArgs e)
         {
+            cargando = true;
             CargarCombos();
-            CargarHorarios();
+            cargando = false;
+
             MostrarTurnos();
             ModoNuevo();
-
         }
 
         private void ConfigurarDataGrid()
@@ -54,7 +61,6 @@ namespace UI
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.CellClick += ElementoSeleccionado;
-
         }
 
         private void CargarCombos()
@@ -83,22 +89,76 @@ namespace UI
             }
         }
 
+        private void CambioSeleccion(object? sender, EventArgs e)
+        {
+            if (cargando)
+            {
+                return;
+            }
+
+            CargarHorarios();
+        }
+
         private void CargarHorarios()
         {
+            string? elegido = comboBox4.SelectedItem?.ToString();
+
+            List<string> ocupados = new List<string>();
+
+            if (comboBox2.SelectedItem != null && comboBox3.SelectedItem != null)
+            {
+                int idPaciente = 0;
+
+                if (comboBox1.SelectedItem != null)
+                {
+                    idPaciente = ((BE.Paciente)comboBox1.SelectedItem).IdPaciente;
+                }
+
+                int idProfesional = ((BE.Profesional)comboBox2.SelectedItem).IdProfesional;
+                int idConsultorio = ((BE.Consultorio)comboBox3.SelectedItem).Id;
+                int idTurnoExcluido = turnoSeleccionado != null ? turnoSeleccionado.Id : 0;
+
+                try
+                {
+                    ocupados = turnoBll.ObtenerHorariosOcupados(idProfesional, idConsultorio, idPaciente, dateTimePicker1.Value, idTurnoExcluido);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar los horarios: " + ex.Message);
+                }
+            }
+
             comboBox4.Items.Clear();
 
             // horarios de 8 a 20 cada media hora
             for (int hora = 8; hora <= 20; hora++)
             {
-                comboBox4.Items.Add(hora.ToString("00") + ":00");
+                string horario = hora.ToString("00") + ":00";
+
+                if (!ocupados.Contains(horario))
+                {
+                    comboBox4.Items.Add(horario);
+                }
+
                 if (hora < 20)
                 {
-                    comboBox4.Items.Add(hora.ToString("00") + ":30");
+                    horario = hora.ToString("00") + ":30";
 
+                    if (!ocupados.Contains(horario))
+                    {
+                        comboBox4.Items.Add(horario);
+                    }
                 }
             }
 
-            comboBox4.SelectedIndex = -1;
+            if (elegido != null && comboBox4.Items.Contains(elegido))
+            {
+                comboBox4.SelectedItem = elegido;
+            }
+            else
+            {
+                comboBox4.SelectedIndex = -1;
+            }
         }
 
         private void MostrarTurnos()
@@ -127,11 +187,16 @@ namespace UI
         {
             LimpiarSeleccion();
             turnoSeleccionado = null;
+
+            cargando = true;
             comboBox1.SelectedIndex = -1;
             comboBox2.SelectedIndex = -1;
             comboBox3.SelectedIndex = -1;
             comboBox4.SelectedIndex = -1;
             dateTimePicker1.Value = DateTime.Today;
+            cargando = false;
+
+            CargarHorarios();
         }
 
         private void ElementoSeleccionado(object? sender, DataGridViewCellEventArgs e)
@@ -150,18 +215,17 @@ namespace UI
 
 
             // carga los controles
+            cargando = true;
+
             if (turnoSeleccionado.Paciente != null)
             {
                 comboBox1.SelectedValue = turnoSeleccionado.Paciente.IdPaciente;
             }
 
-
-
             if (turnoSeleccionado.Profesional != null)
             {
                 comboBox2.SelectedValue = turnoSeleccionado.Profesional.IdProfesional;
             }
-
 
             if (turnoSeleccionado.Consultorio != null)
             {
@@ -169,6 +233,10 @@ namespace UI
             }
 
             dateTimePicker1.Value = turnoSeleccionado.FechaHora.Date;
+
+            cargando = false;
+
+            CargarHorarios();
             comboBox4.SelectedItem = turnoSeleccionado.FechaHora.ToString("HH:mm");
         }
         //nuevo
