@@ -216,6 +216,39 @@ namespace DAL
                     "Error al consultar los turnos del paciente: " + ex.Message, ex);
             }
         }
+        public void MarcarTurnoAtendido(int idTurno)
+        {
+            try
+            {
+                using (SqlConnection conexion =  new SqlConnection(ConectionString.GetConectionString()))
+                {
+                    conexion.Open();
+
+                    string query = @"UPDATE TURNO SET ESTADO = @ESTADO
+                             WHERE ID_TURNO = @ID_TURNO AND ESTADO = @ESTADO_ACTUAL";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
+                    {
+                        comando.Parameters.AddWithValue("@ESTADO", EstadoTurno.Atendido.ToString());
+
+                        comando.Parameters.AddWithValue("@ID_TURNO", idTurno);
+
+                        comando.Parameters.AddWithValue("@ESTADO_ACTUAL", EstadoTurno.Pendiente.ToString());
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+
+                        if (filasAfectadas == 0)
+                        {
+                            throw new Exception("No se pudo actualizar el turno. Verifique que exista y esté pendiente.");
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

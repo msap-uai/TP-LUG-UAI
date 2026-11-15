@@ -10,18 +10,16 @@ namespace DAL
     {
         public void AgregarProfesional(Profesional profesional)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                SqlTransaction transaccion = conexion.BeginTransaction();
-
-                try
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    string query = @"INSERT INTO PROFESIONAL (ID_PERSONA, MATRICULA, ID_ESPECIALIDAD, ARANCEL)
-                        VALUES (@ID_PERSONA, @MATRICULA, @ID_ESPECIALIDAD, @ARANCEL)";
+                    conexion.Open();
 
-                    using (SqlCommand comando = new SqlCommand(query, conexion, transaccion))
+                    string query = @"INSERT INTO PROFESIONAL (ID_PERSONA, MATRICULA, ID_ESPECIALIDAD, ARANCEL)
+                            VALUES (@ID_PERSONA, @MATRICULA, @ID_ESPECIALIDAD, @ARANCEL)";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
                         comando.Parameters.AddWithValue("@ID_PERSONA", profesional.Id);
 
@@ -33,16 +31,14 @@ namespace DAL
 
                         comando.ExecuteNonQuery();
                     }
-
-                    transaccion.Commit();
-                }
-                catch (Exception)
-                {
-                    transaccion.Rollback();
-                    throw;
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
         }
+
 
         public List<Profesional> ObtenerProfesionales()
         {
@@ -145,22 +141,16 @@ namespace DAL
 
         public void ModificarProfesional(Profesional profesional)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                SqlTransaction transaccion = conexion.BeginTransaction();
-
-                try
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    string query = @"UPDATE PROFESIONAL SET
-                        MATRICULA = @MATRICULA,
-                        ID_ESPECIALIDAD = @ID_ESPECIALIDAD,
-                        ARANCEL = @ARANCEL
-                        WHERE ID_PROFESIONAL = @ID_PROFESIONAL
-                        AND ID_PERSONA = @ID_PERSONA";
+                    conexion.Open();
 
-                    using (SqlCommand comando = new SqlCommand(query, conexion, transaccion))
+                    string query = @"UPDATE PROFESIONAL SET MATRICULA = @MATRICULA, ID_ESPECIALIDAD = @ID_ESPECIALIDAD, ARANCEL = @ARANCEL
+                      WHERE ID_PROFESIONAL = @ID_PROFESIONAL AND ID_PERSONA = @ID_PERSONA";
+
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
                         comando.Parameters.AddWithValue("@MATRICULA", profesional.Matricula);
 
@@ -179,14 +169,11 @@ namespace DAL
                             throw new Exception("No se encontró el profesional que desea modificar.");
                         }
                     }
-
-                    transaccion.Commit();
                 }
-                catch (Exception)
-                {
-                    transaccion.Rollback();
-                    throw;
-                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

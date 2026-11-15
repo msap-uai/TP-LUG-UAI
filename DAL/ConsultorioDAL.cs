@@ -38,8 +38,7 @@ namespace DAL
             {
                 List<Consultorio> lista = new List<Consultorio>();
 
-                using (SqlConnection conexion =
-                    new SqlConnection(ConectionString.GetConectionString()))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
                     conexion.Open();
 
@@ -84,8 +83,7 @@ namespace DAL
 
                         if (filasAfectadas == 0)
                         {
-                            throw new Exception(
-                                "No se encontro el consultorio.");
+                            throw new Exception("No se encontro el consultorio.");
                         }
                     }
                 }
@@ -100,13 +98,11 @@ namespace DAL
         {
             try
             {
-                using (SqlConnection conexion =
-                    new SqlConnection(ConectionString.GetConectionString()))
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
                     conexion.Open();
 
-                    string query = @"DELETE FROM CONSULTORIO
-                                     WHERE ID_CONSULTORIO = @ID_CONSULTORIO";
+                    string query = @"DELETE FROM CONSULTORIO WHERE ID_CONSULTORIO = @ID_CONSULTORIO";
 
                     using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
@@ -116,8 +112,7 @@ namespace DAL
 
                         if (filasAfectadas == 0)
                         {
-                            throw new Exception(
-                                "No se encontro el consultorio.");
+                            throw new Exception("No se encontro el consultorio.");
                         }
                     }
                 }

@@ -10,68 +10,38 @@ namespace DAL
     {
         public void AgregarConsultaEvolucion(ConsultaEvolucion consulta)
         {
-            using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
+            try
             {
-                conexion.Open();
-
-                SqlTransaction transaccion = conexion.BeginTransaction();
-
-                try
+                using (SqlConnection conexion = new SqlConnection(ConectionString.GetConectionString()))
                 {
-                    // PRIMERA OPERACIÓN: REGISTRAR CONSULTA
+                    conexion.Open();
 
-                    string queryConsulta = @"INSERT INTO CONSULTA_EVOLUCION (ID_TURNO, FECHA_ATENCION, OBSERVACIONES, DIAGNOSTICO, MEDICACION, MONTO_COBRADO)
-                      VALUES (@ID_TURNO, @FECHA_ATENCION, @OBSERVACIONES,@DIAGNOSTICO, @MEDICACION, @MONTO_COBRADO)";
+                    string query = @"INSERT INTO CONSULTA_EVOLUCION (ID_TURNO, FECHA_ATENCION, OBSERVACIONES, DIAGNOSTICO, MEDICACION, MONTO_COBRADO)
+                      VALUES (@ID_TURNO, @FECHA_ATENCION, @OBSERVACIONES, @DIAGNOSTICO, @MEDICACION, @MONTO_COBRADO)";
 
-                    using (SqlCommand comandoConsulta = new SqlCommand(queryConsulta, conexion, transaccion))
+                    using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
-                        comandoConsulta.Parameters.AddWithValue("@ID_TURNO", consulta.Turno.Id);
+                        comando.Parameters.AddWithValue("@ID_TURNO", consulta.Turno.Id);
 
-                        comandoConsulta.Parameters.AddWithValue("@FECHA_ATENCION", consulta.FechaAtencion);
+                        comando.Parameters.AddWithValue("@FECHA_ATENCION", consulta.FechaAtencion);
 
-                        comandoConsulta.Parameters.AddWithValue("@OBSERVACIONES", (object)consulta.Observaciones ?? DBNull.Value);
+                        comando.Parameters.AddWithValue("@OBSERVACIONES", (object)consulta.Observaciones ?? DBNull.Value);
 
-                        comandoConsulta.Parameters.AddWithValue("@DIAGNOSTICO",(object)consulta.Diagnostico ?? DBNull.Value);
+                        comando.Parameters.AddWithValue("@DIAGNOSTICO", (object)consulta.Diagnostico ?? DBNull.Value);
 
-                        comandoConsulta.Parameters.AddWithValue("@MEDICACION",(object)consulta.Medicacion ?? DBNull.Value);
+                        comando.Parameters.AddWithValue("@MEDICACION", (object)consulta.Medicacion ?? DBNull.Value);
 
-                        comandoConsulta.Parameters.AddWithValue("@MONTO_COBRADO", consulta.MontoCobrado);
+                        comando.Parameters.AddWithValue("@MONTO_COBRADO", consulta.MontoCobrado);
 
-                        comandoConsulta.ExecuteNonQuery();
+                        comando.ExecuteNonQuery();
                     }
-
-                    // SEGUNDA OPERACIÓN: ACTUALIZAR ESTADO DEL TURNO
-
-                    string queryTurno = @"UPDATE TURNO SET 
-                        ESTADO = @ESTADO
-                        WHERE ID_TURNO = @ID_TURNO AND ESTADO = @ESTADO_ACTUAL";
-
-                    using (SqlCommand comandoTurno = new SqlCommand(queryTurno, conexion, transaccion))
-                    {
-                        comandoTurno.Parameters.AddWithValue("@ESTADO", EstadoTurno.Atendido.ToString());
-
-                        comandoTurno.Parameters.AddWithValue("@ID_TURNO", consulta.Turno.Id);
-
-                        comandoTurno.Parameters.AddWithValue("@ESTADO_ACTUAL", EstadoTurno.Pendiente.ToString());
-
-                        int filasAfectadas = comandoTurno.ExecuteNonQuery();
-
-                        if (filasAfectadas == 0)
-                        {
-                            throw new Exception("No se pudo actualizar el turno. Verifique que exista y esté pendiente.");
-                        }
-                    }
-
-                    transaccion.Commit();
-                }
-                catch (Exception)
-                {
-                    transaccion.Rollback();
-                    throw;
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
         }
-
         public List<ConsultaEvolucion> ObtenerConsultasEvolucion()
         {
             try
