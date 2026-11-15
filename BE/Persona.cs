@@ -6,149 +6,19 @@ namespace BE
     {
         public int Id { get; private set; }
 
-        private string _nombre;
-        private string _apellido;
-        private string _dni;
-        private string _telefono;
-        private string _mail;
 
-        public string Nombre
-        {
-            get => _nombre;
+        public string Nombre { get; set; } = string.Empty;
+        
+        public string Apellido {  get; set; } = string.Empty;
+       
 
-            set
-            {
-                // Verifica que el nombre exista
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("El nombre es obligatorio.");
-                }
+        public string Dni {  get; set; } = string.Empty;
+       
+        public string Telefono {  get; set; } = string.Empty;
+       
 
-                // Controla que la longitud del nombre no supere los 50 caracteres
-                if (value.Length > 50)
-                {
-                    throw new ArgumentException("El nombre no puede tener más de 50 caracteres.");
-                }
-
-                _nombre = value;
-            }
-        }
-
-        public string Apellido
-        {
-            get => _apellido;
-
-            set
-            {
-                // Verifica que el apellido exista
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("El apellido es obligatorio.");
-                }
-
-                // Verifica que el nombre no supere los 50 caracteres
-                if (value.Length > 50)
-                {
-                    throw new ArgumentException("El apellido no puede tener más de 50 caracteres.");
-                }
-
-                _apellido = value;
-            }
-        }
-
-        public string Dni
-        {
-            get => _dni;
-
-            set
-            {
-                //Verifica que el Dni no sea nulo o vacio
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("El numero de DNI es obligatorio");
-                }
-
-                // Elimina los puntos "."
-                value = value.Replace(".", "");
-
-                // Elimina espacios en blanco
-                value = value.Replace(" ", "");
-
-
-                // Verifica que el DNI no supere los 10 caracteres
-                if (value.Length > 10)
-                {
-                    throw new ArgumentException("El DNI no puede tener más de 10 caracteres.");
-                }
-
-                // verifica que Dni solo tenga numeros
-                if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[0-9]+$"))
-                {
-                    throw new ArgumentException("El DNI solo debe contener numeros");
-                }
-
-
-                _dni = value;
-            }
-        }
-
-        public string Telefono
-        {
-            get => _telefono;
-
-            set
-            {
-                // Si el teléfono es nulo, lo convierte en una cadena vacía
-                if (value == null)
-                {
-                    value = string.Empty;
-                }
-
-                // Verifica que el teléfono no supere los 20 caracteres
-                if (value.Length > 20)
-                {
-                    throw new ArgumentException("El número de teléfono no puede tener más de 20 caracteres.");
-                }
-
-                // Validar que el teléfono contenga solo dígitos y opcionalmente espacios, guiones o paréntesis
-                if (value != null && !System.Text.RegularExpressions.Regex.IsMatch(value, @"^[0-9\s\-\(\)]*$"))
-                {
-                    throw new ArgumentException("El número de teléfono solo puede contener dígitos, espacios, guiones o paréntesis.");
-                }
-
-                _telefono = value;
-            }
-        }
-
-        public string Mail
-        {
-            get => _mail;
-
-            set
-            {
-                // Si no se informa un correo, permite dejarlo vacio
-                if(string.IsNullOrWhiteSpace(value))
-                {
-                    _mail = string.Empty;
-                    return;
-                }
-                
-                // Verifica que el mail no supere los 100 caracteres
-                if (value.Length > 100)
-                {
-                    throw new ArgumentException("El mail no puede superar los 100 caracteres.");
-                }
-
-                // Verifica que el mail tenga un formato válido
-                if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-                {
-                    throw new ArgumentException("El mail no tiene un formato válido.");
-                }
-
-                _mail = value;
-            }
-        }
-
+        public string Mail {  get; set; } = string.Empty;
+       
         public string NombreCompleto
         {
             get { return Apellido + ", " + Nombre; }

@@ -64,6 +64,8 @@ namespace BLL
                     throw new Exception("La obra social seleccionada no es válida.");
                 }
 
+                ValidarNumeroAfiliado(paciente);
+
                 using (TransactionScope transaccion = new TransactionScope())
                 {
                     // Comprobar si ya está registrada como paciente
@@ -84,7 +86,22 @@ namespace BLL
                 throw new Exception("Error al agregar el paciente: " + ex.Message, ex);
             }
         }
-
+        private static void ValidarNumeroAfiliado(Paciente paciente)
+        {
+            try
+            {
+                if (paciente.NumeroAfiliado != null &&
+                    paciente.NumeroAfiliado.Length > 30)
+                {
+                    throw new Exception(
+                        "El número de afiliado no puede superar los 30 caracteres.");
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public void ModificarPaciente(Paciente paciente)
         {
             try
@@ -105,7 +122,28 @@ namespace BLL
                     throw new Exception("La persona asociada al paciente no es válida.");
                 }
 
-                // Validaciones específicas del paciente
+
+                // VALIDAR QUE EL PACIENTE EXISTA EN LA BASE DE DATOS
+
+                List<Paciente> pacientes = PacienteDAL.ObtenerPacientes();
+
+                bool existe = false;
+
+                foreach (var p in pacientes)
+                {
+                    if (p.IdPaciente == paciente.IdPaciente)
+                    {
+                        existe = true;
+                        break;
+                    }
+                }
+
+                if (!existe)
+                {
+                    throw new Exception("El paciente que intenta modificar no existe.");
+                }
+
+                // VALIDACIONES DE NEGOCIO
 
                 if (paciente.FechaNacimiento == DateTime.MinValue)
                 {
@@ -122,7 +160,7 @@ namespace BLL
                     throw new Exception("La obra social seleccionada no es válida.");
                 }
 
-
+                ValidarNumeroAfiliado(paciente);
                 using (var trx = new TransactionScope())
                 {
                     PacienteDAL.ModificarPaciente(paciente);

@@ -118,18 +118,26 @@ namespace UI
 
         private void ConfigurarDataGrid()
         {
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.Columns.Clear();
+            try
+            {
+                dataGridView1.AutoGenerateColumns = false;
+                dataGridView1.Columns.Clear();
 
-            DataGridViewTextBoxColumn columnaNombre = new DataGridViewTextBoxColumn();
-            columnaNombre.DataPropertyName = "Descripcion";
-            columnaNombre.HeaderText = "Especialidad";
-            columnaNombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                DataGridViewTextBoxColumn columnaNombre = new DataGridViewTextBoxColumn();
+                columnaNombre.DataPropertyName = "Descripcion";
+                columnaNombre.HeaderText = "Especialidad";
+                columnaNombre.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            dataGridView1.Columns.Add(columnaNombre);
+                dataGridView1.Columns.Add(columnaNombre);
 
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.CellClick += ElementoSeleccionado;
+                dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dataGridView1.CellClick += ElementoSeleccionado;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las especialidades: " + ex.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            
         }
 
         private void MostrarEspecialidades()

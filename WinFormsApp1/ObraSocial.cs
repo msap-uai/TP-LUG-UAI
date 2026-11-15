@@ -135,11 +135,19 @@ namespace UI
 
         private void MostrarObrasSociales()
         {
-            dataGridView1.DataSource = obraSocialBll.ObtenerObrasSociales();
-            dataGridView1.CurrentCell = null;
-            dataGridView1.ClearSelection();
+            try
+            {
+                dataGridView1.DataSource = obraSocialBll.ObtenerObrasSociales();
+                dataGridView1.CurrentCell = null;
+                dataGridView1.ClearSelection();
 
-            textBox1.Text = string.Empty;
+                textBox1.Text = string.Empty;
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show("Error al cargar las obras sociales: " + ex.Message,"Error" ,MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void Cierre(object? sender, FormClosingEventArgs e)

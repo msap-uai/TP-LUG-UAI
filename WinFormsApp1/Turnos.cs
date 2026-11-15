@@ -301,13 +301,6 @@ namespace UI
                 }
                 else
                 {
-                    if (turnoSeleccionado.Estado != EstadoTurno.Pendiente)
-                    {
-                        MessageBox.Show("Solo se pueden modificar turnos pendientes.");
-                        return;
-
-                    }
-
                     BE.Turno modificado = new BE.Turno(turnoSeleccionado.Id, paciente, profesional, consultorio, fechaHora, turnoSeleccionado.Estado);
                     turnoBll.ModificarTurno(modificado);
                     MessageBox.Show("Turno modificado correctamente.");

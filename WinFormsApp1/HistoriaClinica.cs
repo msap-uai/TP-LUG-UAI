@@ -65,12 +65,6 @@ namespace UI
                 return;
             }
 
-            if (turno.Estado != EstadoTurno.Pendiente)
-            {
-                MessageBox.Show("Solo se pueden atender turnos pendientes.");
-                return;
-            }
-
             string evolucionTexto = textBox1.Text.Trim();
             if (string.IsNullOrWhiteSpace(evolucionTexto))
             {

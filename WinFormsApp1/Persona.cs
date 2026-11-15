@@ -181,9 +181,17 @@
 
         private void MostrarPersonas()
         {
-            dataGridView1.DataSource = BLL.PersonaBLL.ObtenerPersonas();
-            dataGridView1.CurrentCell = null;
-            dataGridView1.ClearSelection();
+            try
+            {
+                dataGridView1.DataSource = BLL.PersonaBLL.ObtenerPersonas();
+                dataGridView1.CurrentCell = null;
+                dataGridView1.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las personas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         private void Cierre(object? sender, FormClosingEventArgs e)

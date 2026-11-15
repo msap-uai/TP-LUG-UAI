@@ -28,14 +28,40 @@ namespace BLL
                     throw new Exception("Debe seleccionar un turno válido.");
                 }
 
+                // VALIDAR EL ESTADO ACTUAL DEL TURNO
+
+                TurnoDAL turnoDAL = new TurnoDAL();
+
+                List<Turno> lista = turnoDAL.ObtenerTurnos();
+
+                Turno turnoEncontrado = null;
+
+                foreach (var t in lista)
+                {
+                    if (t.Id == consulta.Turno.Id)
+                    {
+                        turnoEncontrado = t;
+                        break;
+                    }
+                }
+
+                if (turnoEncontrado == null)
+                {
+                    throw new Exception("No se encontró el turno.");
+                }
+
+                if (turnoEncontrado.Estado != EstadoTurno.Pendiente)
+                {
+                    throw new Exception("Solo se pueden atender turnos pendientes.");
+                }
+
                 // TRANSACCIÓN
                 using (TransactionScope trx = new TransactionScope())
                 {
                     // PRIMERA OPERACIÓN: REGISTRAR CONSULTA
                     dal.AgregarConsultaEvolucion(consulta);
 
-                    // SEGUNDA OPERACIÓN: ACTUALIZAR ESTADO DEL TURNO
-                    TurnoDAL turnoDAL = new TurnoDAL();
+                    // SEGUNDA OPERACIÓN: ACTUALIZAR ESTADO DEL TURNO                  
 
                     turnoDAL.MarcarTurnoAtendido(consulta.Turno.Id);
 

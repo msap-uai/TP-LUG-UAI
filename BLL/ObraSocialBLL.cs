@@ -31,6 +31,17 @@ namespace BLL
                 int obraSocialId = (id == null) ? 0 : id.Value;
 
                 ValidarNombre(nombreLimpio);
+                // VALIDAR QUE NO EXISTA OTRA OBRA SOCIAL CON EL MISMO NOMBRE
+
+                List<ObraSocial> existentes = ObraSocialDAL.ObtenerObrasSociales();
+
+                foreach (var obra in existentes)
+                {
+                    if (obra.Id != obraSocialId && string.Equals(obra.Nombre.Trim(), nombreLimpio, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new Exception("Ya existe una obra social con ese nombre.");
+                    }
+                }
 
                 ObraSocial obraSocial = ObraSocialMapper.Map(obraSocialId, nombreLimpio);
 
@@ -54,7 +65,11 @@ namespace BLL
         {
             try
             {
-                
+                if (id <= 0)
+                {
+                    throw new Exception("Debe seleccionar una obra social válida para eliminar.");
+                }
+
                 PacienteBLL pacienteBLL = new PacienteBLL();
                 List<Paciente> pacientes = pacienteBLL.ObtenerPacientesPorObraSocial(id);
                 if (pacientes.Count > 0)

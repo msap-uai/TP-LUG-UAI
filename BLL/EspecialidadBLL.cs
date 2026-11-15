@@ -7,7 +7,17 @@ namespace BLL
 {
     public static class EspecialidadBLL
     {
-        public static List<Especialidad> ObtenerEspecialidades() => EspecialidadDAL.ObtenerEspecialidades();
+        public static List<Especialidad> ObtenerEspecialidades()
+        {
+            try
+            {
+                return EspecialidadDAL.ObtenerEspecialidades();
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         public static void GuardarEspecialidad(int? id, string descripcion)
         {
@@ -16,6 +26,17 @@ namespace BLL
                 int especialidadId = (id == null) ? 0 : id.Value;
 
                 ValidarDescripcion(descripcion);
+                // VALIDAR QUE NO EXISTA OTRA ESPECIALIDAD CON LA MISMA DESCRIPCIÓN
+
+                List<Especialidad> existentes = EspecialidadDAL.ObtenerEspecialidades();
+
+                foreach (var esp in existentes)
+                {
+                    if (esp.Id != especialidadId && string.Equals(esp.Descripcion.Trim(),descripcion.Trim(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new Exception("Ya existe una especialidad con esa descripción");
+                    }
+                }
 
                 Especialidad especialidad = new Especialidad(especialidadId, descripcion);
 
@@ -39,6 +60,10 @@ namespace BLL
         {
             try
             {
+                if (id <= 0)
+                {
+                    throw new Exception("Debe seleccionar una especialidad válida para eliminar.");
+                }
                 List<Profesional> profesionales = ProfesionalBLL.ObtenerProfesionalesPorEspecialidad(id);
 
                 if (profesionales.Count > 0)

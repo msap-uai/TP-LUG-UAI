@@ -18,12 +18,6 @@ namespace BE
 
             set
             {
-                // verifica que la especialidad exista
-                if (value == null)
-                {
-                    throw new Exception( "debe informar la especialidad del profesional");
-                }
-
                 especialidad = value;
             }
         }
@@ -34,18 +28,6 @@ namespace BE
 
             set
             {
-                // arancel debe ser positivo
-                if (value <= 0)
-                {
-                    throw new Exception("el arancel debe ser un numero positivo.");
-                }
-
-                //arancel max 1.000.000
-                if (value >= 1000000)
-                {
-                    throw new Exception("el arancel debe ser menor a 1 millon.");
-                }
-
                 arancel = value;
             }
         }

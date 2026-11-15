@@ -55,6 +55,28 @@ namespace BLL
                 {
                     throw new Exception("Debe seleccionar un consultorio válido para modificar.");
                 }
+                // VALIDAR QUE EL CONSULTORIO EXISTA
+                List<Consultorio> lista = consultorioDAL.ObtenerConsultorios();
+
+                bool existe = false;
+
+                foreach (var c in lista)
+                {
+                    if (c.Id == consultorio.Id)
+                    {
+                        existe = true;
+                        break;
+                    }
+                }
+
+                if (!existe)
+                {
+                    throw new Exception("El consultorio que intenta modificar no existe.");
+                }
+
+                // VALIDACIONES DE NEGOCIO
+
+
 
                 ValidarConsultorio(consultorio);
                 consultorioDAL.ModificarConsultorio(consultorio);

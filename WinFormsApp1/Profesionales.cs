@@ -162,13 +162,7 @@ namespace UI
             }
 
             BE.Persona persona = (BE.Persona)comboBoxPersona.SelectedItem;
-
-            if (string.IsNullOrWhiteSpace(matricula))
-            {
-                MessageBox.Show("debe ingresar la matricula del profesional.");
-                return;
-            }
-
+                       
             if (comboBox1.SelectedItem == null)
             {
                 MessageBox.Show("debe seleccionar una especialidad.");
@@ -177,9 +171,9 @@ namespace UI
 
             BE.Especialidad especialidad = (BE.Especialidad)comboBox1.SelectedItem;
 
-            if (!decimal.TryParse(textBox2.Text, out decimal arancel) || arancel <= 0)
+            if (!decimal.TryParse(textBox2.Text, out decimal arancel))
             {
-                MessageBox.Show("debe ingresar un arancel valido mayor a cero");
+                MessageBox.Show("debe ingresar un arancel numerico valido");
                 return;
             }
 

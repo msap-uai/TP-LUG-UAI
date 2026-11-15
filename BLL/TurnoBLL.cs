@@ -135,7 +135,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al agregar el turno: " + ex.Message);
+                throw;
             }
         }
 
@@ -146,6 +146,30 @@ namespace BLL
                 if (turno == null || turno.Id <= 0)
                 {
                     throw new Exception("Debe seleccionar un turno valido.");
+                }
+                // Buscar el turno registrado en la base de datos
+                List<Turno> lista = turnos.ObtenerTurnos();
+
+                Turno encontrado = null;
+
+                foreach (var t in lista)
+                {
+                    if (t.Id == turno.Id)
+                    {
+                        encontrado = t;
+                        break;
+                    }
+                }
+
+                if (encontrado == null)
+                {
+                    throw new Exception("No se encontró el turno.");
+                }
+
+                // Validar que el turno esté pendiente
+                if (encontrado.Estado != EstadoTurno.Pendiente)
+                {
+                    throw new Exception("Solo se pueden modificar turnos pendientes.");
                 }
 
                 ValidarTurno(turno);

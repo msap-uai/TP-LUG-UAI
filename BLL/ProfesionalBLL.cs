@@ -44,7 +44,7 @@ namespace BLL
                     throw new Exception("El profesional no puede ser nulo.");
                 }
 
-                if (profesional.Id == 0)
+                if (profesional.Id <= 0)
                 {
                     throw new Exception("Debe seleccionar una persona.");
                 }
@@ -64,22 +64,33 @@ namespace BLL
                     throw new Exception("El arancel debe ser un importe mayor a cero.");
                 }
 
-                // Validar que la persona no sea ya profesional y que la matrícula no esté duplicada
+                if (profesional.Arancel >= 1000000)
+                {
+                    throw new Exception("El arancel debe ser menor a un millón.");
+                }
+
+                // OBTENER PROFESIONALES EXISTENTES
                 List<Profesional> existentes = profesionalDAL.ObtenerProfesionales();
+
+                bool existe = false;
+
                 foreach (var prof in existentes)
                 {
-                    if (prof.IdProfesional != profesional.IdProfesional)
-                    {
+                        if (prof.IdProfesional == profesional.IdProfesional)
+                        {
+                            existe= true;
+                            continue;
+                        }
                         if (prof.Id == profesional.Id)
                         {
-                            throw new Exception("la persona seleccionada ya es profesional.");
+                            throw new Exception("La persona seleccionada ya es profesional");
                         }
-
+                        //VALIDAR MATRICULA DUPLICADA
                         if (prof.Matricula == profesional.Matricula)
                         {
                             throw new Exception("ya existe un profesional con esa matrícula.");
                         }
-                    }
+                    
                 }
 
                 if (profesional.IdProfesional == 0)
@@ -88,7 +99,11 @@ namespace BLL
                 }
                 else
                 {
-                    profesionalDAL.ModificarProfesional(profesional);
+                    if (!existe)
+                    {
+                        throw new Exception("El profesional que intenta modificar no existe");
+                    }
+                        profesionalDAL.ModificarProfesional(profesional);
                 }
             }
             catch
@@ -102,6 +117,32 @@ namespace BLL
         {
             try
             {
+                // VALIDAR IDENTIFICADOR
+                if (idProfesional <= 0)
+                {
+                    throw new Exception("Debe seleccionar un profesional válido para eliminar.");
+                }
+
+                // VALIDAR QUE EL PROFESIONAL EXISTA
+                List<Profesional> profesionales = profesionalDAL.ObtenerProfesionales();
+
+                bool existe = false;
+
+                foreach (var profesional in profesionales)
+                {
+                    if (profesional.IdProfesional == idProfesional)
+                    {
+                        existe = true;
+                        break;
+                    }
+                }
+
+                if (!existe)
+                {
+                    throw new Exception("El profesional que intenta eliminar no existe.");
+                }
+
+                // VALIDAR QUE NO TENGA TURNOS ASIGNADOS
                 List<Turno> turnos = turnoDAL.ObtenerTurnos();
                 foreach (var turno in turnos)
                 {

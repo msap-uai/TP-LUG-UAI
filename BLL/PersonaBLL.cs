@@ -9,12 +9,41 @@ namespace BLL
 {
     public static class PersonaBLL
     {
-        public static List<Persona> ObtenerPersonas() => PersonaDAL.ObtenerPersonas();
+        public static List<Persona> ObtenerPersonas()
+        {
+            try
+            {
+                return PersonaDAL.ObtenerPersonas();
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
-        public static List<Persona> ObtenerPersonasNoProfesionales() => PersonaDAL.ObtenerPersonasNoProfesionales();
+        public static List<Persona> ObtenerPersonasNoProfesionales()
+        {
+            try
+            {
+                return PersonaDAL.ObtenerPersonasNoProfesionales();
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
-        public static List<Persona> ObtenerPersonasQueNoSonPacientes() => PersonaDAL.ObtenerPersonasQueNoSonPacientes();
-
+        public static List<Persona> ObtenerPersonasQueNoSonPacientes()
+        {
+            try
+            {
+                return PersonaDAL.ObtenerPersonasQueNoSonPacientes();
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public static void GuardarPersona(int? id, string nombre, string apellido, string dni, string telefono, string mail)
         {
             try
@@ -56,11 +85,18 @@ namespace BLL
         {
             try
             {
+                //VALIDAR IDENTIFICADOR
+                if (id <= 0)
+                {
+                    throw new Exception("Debe seleccionar una persona válida para eliminar.");
+                }
+
+                //VALIDAR QUE NO TENGA REGISTROS ASOCIADOS
                 if (PersonaDAL.TieneRegistrosAsociados(id))
                 {
                     throw new Exception("No se puede eliminar la persona porque está registrada como paciente o profesional.");
                 }
-
+                //ELIMINAR PERSONA
                 PersonaDAL.EliminarPersona(id);
             }
             catch
@@ -196,7 +232,7 @@ namespace BLL
                 }
 
                 // Verificar que tenga una arroba
-                if (!mail.Contains("@"))
+                if (!Regex.IsMatch(mail, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
                 {
                     throw new ArgumentException("El mail no tiene un formato válido.");
                 }
