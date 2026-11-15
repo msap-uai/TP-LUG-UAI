@@ -9,7 +9,7 @@ namespace DAL
 {
    public static class PacienteDAL
     {
-        public static void AgregarPaciente(Paciente paciente, int idPersona)
+        public static void AgregarPaciente(Paciente paciente)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace DAL
 
                     using (SqlCommand comando = new SqlCommand(query, conexion))
                     {
-                        comando.Parameters.AddWithValue("@ID_PERSONA", idPersona);
+                        comando.Parameters.AddWithValue("@ID_PERSONA", paciente.Id);
 
                         comando.Parameters.AddWithValue("@FECHA_NACIMIENTO", paciente.FechaNacimiento.Date);
 
@@ -146,33 +146,6 @@ namespace DAL
                 {
                     conexion.Open();
 
-                    // PRIMER UPDATE: PERSONA
-                    string queryPersona = @"UPDATE PERSONA SET
-                    NOMBRE = @NOMBRE, APELLIDO = @APELLIDO, DNI = @DNI, TELEFONO = @TELEFONO, MAIL = @MAIL
-                    WHERE ID_PERSONA = @ID_PERSONA AND EXISTS (SELECT 1 FROM PACIENTE WHERE ID_PACIENTE = @ID_PACIENTE AND ID_PERSONA = @ID_PERSONA)";
-
-                    using (SqlCommand comandoPersona = new SqlCommand(queryPersona, conexion))
-                    {
-                        comandoPersona.Parameters.AddWithValue("@NOMBRE", paciente.Nombre);
-                        comandoPersona.Parameters.AddWithValue("@APELLIDO", paciente.Apellido);
-                        comandoPersona.Parameters.AddWithValue("@DNI", paciente.Dni);
-
-                        comandoPersona.Parameters.AddWithValue("@TELEFONO", (object)paciente.Telefono ?? DBNull.Value);
-
-                        comandoPersona.Parameters.AddWithValue("@MAIL", (object)paciente.Mail ?? DBNull.Value);
-
-                        comandoPersona.Parameters.AddWithValue("@ID_PERSONA", paciente.Id);
-                        comandoPersona.Parameters.AddWithValue("@ID_PACIENTE", paciente.IdPaciente);
-
-                        int filasAfectadas = comandoPersona.ExecuteNonQuery();
-
-                        if (filasAfectadas == 0)
-                        {
-                            throw new Exception("No se encontró la persona que desea modificar.");
-                        }
-                    }
-
-                    // SEGUNDO UPDATE: PACIENTE
                     string queryPaciente = @"UPDATE PACIENTE SET
                     FECHA_NACIMIENTO = @FECHA_NACIMIENTO,
                     ID_OBRA_SOCIAL = @ID_OBRA_SOCIAL,

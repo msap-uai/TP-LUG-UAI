@@ -47,23 +47,11 @@ namespace BLL
                 {
                     throw new Exception("El paciente no puede ser nulo.");
                 }
-                // Normalizar los datos personales
-                paciente.Nombre = (paciente.Nombre ?? string.Empty).Trim();
-                paciente.Apellido = (paciente.Apellido ?? string.Empty).Trim();
-                paciente.Dni = (paciente.Dni ?? string.Empty)
-                    .Replace(".", "")
-                    .Replace(" ", "")
-                    .Trim();
 
-                paciente.Telefono = (paciente.Telefono ?? string.Empty).Trim();
-                paciente.Mail = (paciente.Mail ?? string.Empty).Trim();
-
-                // Validaciones de PersonaBLL
-                PersonaBLL.ValidarNombre(paciente.Nombre);
-                PersonaBLL.ValidarApellido(paciente.Apellido);
-                PersonaBLL.ValidarDni(paciente.Dni);
-                PersonaBLL.ValidarTelefono(paciente.Telefono);
-                PersonaBLL.ValidarMail(paciente.Mail);
+                if (paciente.Id <= 0)
+                {
+                    throw new Exception("Debe seleccionar una persona.");
+                }
 
                 // Validaciones específicas del paciente
                 if (paciente.FechaNacimiento == DateTime.MinValue || paciente.FechaNacimiento.Date > DateTime.Today)
@@ -78,30 +66,14 @@ namespace BLL
 
                 using (TransactionScope transaccion = new TransactionScope())
                 {
-                    // Buscar si la persona ya existe por DNI
-                    Persona personaExistente = PersonaDAL.ObtenerPersonaPorDni(paciente.Dni);
-
-                    int idPersona;
-
-                    if (personaExistente == null)
+                    // Comprobar si ya está registrada como paciente
+                    if (PacienteDAL.ExistePacientePorIdPersona(paciente.Id))
                     {
-                        // La persona no existe: registrarla
-                        idPersona = PersonaDAL.AgregarPersona(paciente);
-                    }
-                    else
-                    {
-                        // La persona ya existe: recuperar su ID
-                        idPersona = personaExistente.Id;
-
-                        // Comprobar si ya está registrada como paciente
-                        if (PacienteDAL.ExistePacientePorIdPersona(idPersona))
-                        {
-                            throw new Exception("La persona ya esta registrada como paciente.");
-                        }
+                        throw new Exception("La persona ya esta registrada como paciente.");
                     }
 
                     // Registrar el paciente utilizando el ID_PERSONA
-                    PacienteDAL.AgregarPaciente(paciente, idPersona);
+                    PacienteDAL.AgregarPaciente(paciente);
 
                     // Confirmar todas las operaciones
                     transaccion.Complete();
@@ -131,22 +103,6 @@ namespace BLL
                 throw new Exception("La persona asociada al paciente no es válida.");
             }
 
-            // Normalizar los datos personales
-            paciente.Nombre = (paciente.Nombre ?? string.Empty).Trim();
-            paciente.Apellido = (paciente.Apellido ?? string.Empty).Trim();
-
-            paciente.Dni = (paciente.Dni ?? string.Empty).Replace(".", "").Replace(" ", "").Trim();
-
-            paciente.Telefono = (paciente.Telefono ?? string.Empty).Trim();
-            paciente.Mail = (paciente.Mail ?? string.Empty).Trim();
-
-            // Validaciones de PersonaBLL
-            PersonaBLL.ValidarNombre(paciente.Nombre);
-            PersonaBLL.ValidarApellido(paciente.Apellido);
-            PersonaBLL.ValidarDni(paciente.Dni);
-            PersonaBLL.ValidarTelefono(paciente.Telefono);
-            PersonaBLL.ValidarMail(paciente.Mail);
-
             // Validaciones específicas del paciente
 
             if (paciente.FechaNacimiento == DateTime.MinValue)
@@ -168,13 +124,6 @@ namespace BLL
             {
                 using (var trx = new TransactionScope())
                 {
-                    // Verificar si el DNI pertenece a otra persona
-                    Persona personaExistente = PersonaDAL.ObtenerPersonaPorDni(paciente.Dni);
-
-                    if (personaExistente != null && personaExistente.Id != paciente.Id)
-                    {
-                        throw new Exception("El DNI ingresado pertenece a otra persona.");
-                    }
                     PacienteDAL.ModificarPaciente(paciente);
                     trx.Complete();
                 }

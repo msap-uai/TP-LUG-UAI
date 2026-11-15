@@ -13,6 +13,8 @@ namespace BLL
 
         public static List<Persona> ObtenerPersonasNoProfesionales() => PersonaDAL.ObtenerPersonasNoProfesionales();
 
+        public static List<Persona> ObtenerPersonasQueNoSonPacientes() => PersonaDAL.ObtenerPersonasQueNoSonPacientes();
+
         public static void GuardarPersona(int? id, string nombre, string apellido, string dni, string telefono, string mail)
         {
             int personaId = (id == null) ? 0 : id.Value;

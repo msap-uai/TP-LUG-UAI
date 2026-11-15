@@ -63,7 +63,7 @@
             // 
             // inicioToolStripMenuItem
             // 
-            inicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripTextBox1, especialidadesToolStripMenuItem1, especialidadesToolStripMenuItem2, obrasSocialesToolStripMenuItem1, personaToolStripMenuItem, pacientesToolStripMenuItem, consultoriosToolStripMenuItem, toolStripSeparator1, salirToolStripMenuItem });
+            inicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripTextBox1, especialidadesToolStripMenuItem2, obrasSocialesToolStripMenuItem1, consultoriosToolStripMenuItem, personaToolStripMenuItem, especialidadesToolStripMenuItem1, pacientesToolStripMenuItem, toolStripSeparator1, salirToolStripMenuItem });
             inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
             inicioToolStripMenuItem.Size = new Size(60, 20);
             inicioToolStripMenuItem.Text = "Archivo";
@@ -179,7 +179,7 @@
             // 
             personaToolStripMenuItem.Name = "personaToolStripMenuItem";
             personaToolStripMenuItem.Size = new Size(160, 22);
-            personaToolStripMenuItem.Text = "Persona";
+            personaToolStripMenuItem.Text = "Personas";
             personaToolStripMenuItem.Click += personaToolStripMenuItem_Click;
             // 
             // Inicio

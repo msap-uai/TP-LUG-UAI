@@ -25,6 +25,14 @@ namespace UI
         {
             try
             {
+                if (cmbPersona.SelectedItem == null)
+                {
+                    MessageBox.Show("Debe seleccionar una persona.");
+                    return;
+                }
+
+                BE.Persona persona = (BE.Persona)cmbPersona.SelectedItem;
+
                 // Obtener la obra social seleccionada
                 BE.ObraSocial? obraSocialSeleccionada = null;
 
@@ -35,13 +43,13 @@ namespace UI
 
                 // Crear el objeto Paciente
                 Paciente paciente = new Paciente(
+                    persona.Id,
                     0,
-                    0,
-                    txtNombre.Text,
-                    txtApellido.Text,
-                    txtDni.Text,
-                    txtTelefono.Text,
-                    txtMail.Text,
+                    persona.Nombre,
+                    persona.Apellido,
+                    persona.Dni,
+                    persona.Telefono,
+                    persona.Mail,
                     dtpFechaNacimiento.Value,
                     obraSocialSeleccionada,
                     txtNumeroAfiliado.Text
@@ -71,6 +79,7 @@ namespace UI
                 cmbObraSocial.ValueMember = "Id";
 
                 cmbObraSocial.SelectedIndex = -1;
+                CargarPersonas(null);
                 CargarPacientes();
 
             }
@@ -79,6 +88,35 @@ namespace UI
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void CargarPersonas(BE.Persona? persona)
+        {
+            try
+            {
+                List<BE.Persona> personas = PersonaBLL.ObtenerPersonasQueNoSonPacientes();
+
+                if (persona != null)
+                {
+                    personas.Insert(0, persona);
+                }
+
+                cmbPersona.DisplayMember = "NombreCompletoConDNI";
+                cmbPersona.DataSource = personas;
+
+                if (persona != null)
+                {
+                    cmbPersona.SelectedIndex = 0;
+                }
+                else
+                {
+                    cmbPersona.SelectedIndex = -1;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar las personas: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void CargarPacientes()
         {
             try
@@ -97,11 +135,8 @@ namespace UI
             try
             {
                 pacienteSeleccionado = null;
-                txtNombre.Clear();
-                txtApellido.Clear();
-                txtDni.Clear();
-                txtTelefono.Clear();
-                txtMail.Clear();
+                CargarPersonas(null);
+                cmbPersona.Enabled = true;
                 txtNumeroAfiliado.Clear();
 
                 dtpFechaNacimiento.Value = DateTime.Today;
@@ -110,7 +145,7 @@ namespace UI
 
                 dgvPacientes.ClearSelection();
 
-                txtNombre.Focus();
+                cmbPersona.Focus();
             }
             catch (Exception ex)
             {
@@ -134,11 +169,8 @@ namespace UI
                     return;
                 }
 
-                txtNombre.Text = pacienteSeleccionado.Nombre;
-                txtApellido.Text = pacienteSeleccionado.Apellido;
-                txtDni.Text = pacienteSeleccionado.Dni;
-                txtTelefono.Text = pacienteSeleccionado.Telefono;
-                txtMail.Text = pacienteSeleccionado.Mail;
+                CargarPersonas(pacienteSeleccionado);
+                cmbPersona.Enabled = false;
 
                 dtpFechaNacimiento.Value = pacienteSeleccionado.FechaNacimiento;
 
@@ -180,11 +212,11 @@ namespace UI
                 Paciente paciente = new Paciente(
                     pacienteSeleccionado.Id,
                     pacienteSeleccionado.IdPaciente,
-                    txtNombre.Text,
-                    txtApellido.Text,
-                    txtDni.Text,
-                    txtTelefono.Text,
-                    txtMail.Text,
+                    pacienteSeleccionado.Nombre,
+                    pacienteSeleccionado.Apellido,
+                    pacienteSeleccionado.Dni,
+                    pacienteSeleccionado.Telefono,
+                    pacienteSeleccionado.Mail,
                     dtpFechaNacimiento.Value,
                     obraSocialSeleccionada,
                     txtNumeroAfiliado.Text
