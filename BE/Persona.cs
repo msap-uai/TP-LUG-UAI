@@ -154,6 +154,11 @@ namespace BE
             get { return Apellido + ", " + Nombre; }
         }
 
+        public string NombreCompletoConDNI
+        {
+            get { return Apellido + ", " + Nombre + " (" + Dni + ")"; }
+        }
+
         public override string ToString()
         {
             return Apellido + ", " + Nombre;

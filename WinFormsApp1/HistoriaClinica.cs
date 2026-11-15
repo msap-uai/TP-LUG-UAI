@@ -16,6 +16,7 @@ namespace UI
     public partial class HistoriaClinica : Form
     {
         private Paciente? pacienteActual = null;
+        private bool cargando = false;
         private PacienteBLL pacienteBll = new PacienteBLL();
         private TurnoBLL turnoBll = new TurnoBLL();
         private ConsultaEvolucionBLL consultaBll = new ConsultaEvolucionBLL();
@@ -29,6 +30,10 @@ namespace UI
             dataGridView2.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             ConfigurarGrillas();
 
+            comboBoxPaciente.DropDownStyle = ComboBoxStyle.DropDownList;
+            comboBoxPaciente.SelectedIndexChanged += CambioPaciente;
+
+            CargarPacientes();
         }
 
         public void ConfigurarGrillas()
@@ -97,36 +102,50 @@ namespace UI
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void CargarPacientes()
         {
-            //buscar paciente
-            string dni = textBox2.Text;
-            if (string.IsNullOrWhiteSpace(dni))
+            cargando = true;
+
+            try
             {
-                MessageBox.Show("Ingrese el DNI para buscar.");
-                return;
+                comboBoxPaciente.DisplayMember = "NombreCompletoConDNI";
+                comboBoxPaciente.DataSource = pacienteBll.ObtenerPacientes();
+                comboBoxPaciente.SelectedIndex = -1;
             }
-            var pacientes = pacienteBll.ObtenerPacientes();
-            pacienteActual = null;
-            foreach (var p in pacientes)
+            catch (Exception ex)
             {
-                if (p.Dni == dni)
-                {
-                    pacienteActual = p;
-                    break;
-                }
+                MessageBox.Show("Error al cargar los pacientes: " + ex.Message);
             }
 
-            if (pacienteActual == null)
+            cargando = false;
+        }
+
+        private void CambioPaciente(object? sender, EventArgs e)
+        {
+            if (cargando)
             {
-                MessageBox.Show("No se encontro ningun");
+                return;
+            }
+
+            if (comboBoxPaciente.SelectedItem == null)
+            {
+                pacienteActual = null;
                 dataGridView1.DataSource = null;
                 dataGridView2.DataSource = null;
                 return;
             }
 
-            CargarDatosPaciente();
+            try
+            {
+                pacienteActual = (Paciente)comboBoxPaciente.SelectedItem;
+                CargarDatosPaciente();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos del paciente: " + ex.Message);
+            }
         }
+
         private void CargarDatosPaciente()
         {
             if (pacienteActual == null) return;

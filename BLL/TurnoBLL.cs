@@ -14,6 +14,34 @@ namespace BLL
             return turnos.ObtenerTurnos();
         }
 
+        public List<Turno> ObtenerTurnosFiltrados(DateTime? fecha, int? idConsultorio)
+        {
+            List<Turno> filtrados = new List<Turno>();
+
+            foreach (var t in turnos.ObtenerTurnos())
+            {
+                if (fecha != null)
+                {
+                    if (t.FechaHora.Date != fecha.Value.Date)
+                    {
+                        continue;
+                    }
+                }
+
+                if (idConsultorio != null)
+                {
+                    if (t.Consultorio == null || t.Consultorio.Id != idConsultorio.Value)
+                    {
+                        continue;
+                    }
+                }
+
+                filtrados.Add(t);
+            }
+
+            return filtrados;
+        }
+
         public List<string> ObtenerHorariosOcupados(int idProfesional, int idConsultorio, int idPaciente, DateTime fecha, int idTurnoExcluido)
         {
             List<string> ocupados = new List<string>();
