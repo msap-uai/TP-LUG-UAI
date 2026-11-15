@@ -1,6 +1,4 @@
-﻿using BLL;
-
-namespace UI
+﻿namespace UI
 {
     public partial class Persona : Form
     {
@@ -201,15 +199,23 @@ namespace UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (HayCambios())
+            try
             {
-                if (!ConfirmarCambios())
+                if (HayCambios())
                 {
-                    return;
+                    if (!ConfirmarCambios())
+                    {
+                        return;
+                    }
                 }
+
+                ModoNuevoRegistro();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            ModoNuevoRegistro();
         }
 
         private void button2_Click(object sender, EventArgs e)

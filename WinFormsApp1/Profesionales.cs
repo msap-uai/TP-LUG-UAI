@@ -141,7 +141,14 @@ namespace UI
 
         private void button1_Click(object? sender, EventArgs e)
         {
-            ModoNuevoRegistro();
+            try
+            {
+                ModoNuevoRegistro();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button2_Click(object? sender, EventArgs e)

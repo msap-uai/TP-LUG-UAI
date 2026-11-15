@@ -242,8 +242,15 @@ namespace UI
         //nuevo
         private void button1_Click(object? sender, EventArgs e)
         {
-            
-            ModoNuevo();
+            try
+            {
+
+                ModoNuevo();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         //boton guardar
         private void button2_Click(object? sender, EventArgs e)

@@ -160,8 +160,7 @@ namespace UI
                 MessageBox.Show("Debe seleccionar un consultorio de la grilla para eliminar.");
                 return;
             }
-
-           
+                     
 
             try
             {

@@ -32,11 +32,12 @@
             menuStrip1 = new MenuStrip();
             inicioToolStripMenuItem = new ToolStripMenuItem();
             toolStripTextBox1 = new ToolStripTextBox();
-            especialidadesToolStripMenuItem1 = new ToolStripMenuItem();
             especialidadesToolStripMenuItem2 = new ToolStripMenuItem();
             obrasSocialesToolStripMenuItem1 = new ToolStripMenuItem();
-            pacientesToolStripMenuItem = new ToolStripMenuItem();
             consultoriosToolStripMenuItem = new ToolStripMenuItem();
+            personaToolStripMenuItem = new ToolStripMenuItem();
+            especialidadesToolStripMenuItem1 = new ToolStripMenuItem();
+            pacientesToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             salirToolStripMenuItem = new ToolStripMenuItem();
             turnosToolStripMenuItem = new ToolStripMenuItem();
@@ -47,17 +48,18 @@
             especialidadesToolStripMenuItem = new ToolStripMenuItem();
             obrasSocialesToolStripMenuItem = new ToolStripMenuItem();
             cerrarToolStripMenuItem = new ToolStripMenuItem();
-            personaToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { inicioToolStripMenuItem, turnosToolStripMenuItem, historiaClinicaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 24);
+            menuStrip1.Padding = new Padding(7, 3, 0, 3);
+            menuStrip1.Size = new Size(914, 30);
             menuStrip1.TabIndex = 6;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -65,61 +67,68 @@
             // 
             inicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { toolStripTextBox1, especialidadesToolStripMenuItem2, obrasSocialesToolStripMenuItem1, consultoriosToolStripMenuItem, personaToolStripMenuItem, especialidadesToolStripMenuItem1, pacientesToolStripMenuItem, toolStripSeparator1, salirToolStripMenuItem });
             inicioToolStripMenuItem.Name = "inicioToolStripMenuItem";
-            inicioToolStripMenuItem.Size = new Size(60, 20);
+            inicioToolStripMenuItem.Size = new Size(73, 24);
             inicioToolStripMenuItem.Text = "Archivo";
             // 
             // toolStripTextBox1
             // 
             toolStripTextBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             toolStripTextBox1.Name = "toolStripTextBox1";
-            toolStripTextBox1.Size = new Size(100, 23);
+            toolStripTextBox1.Size = new Size(100, 27);
             toolStripTextBox1.Text = "ABM";
-            // 
-            // especialidadesToolStripMenuItem1
-            // 
-            especialidadesToolStripMenuItem1.Name = "especialidadesToolStripMenuItem1";
-            especialidadesToolStripMenuItem1.Size = new Size(160, 22);
-            especialidadesToolStripMenuItem1.Text = "Profesionales";
-            especialidadesToolStripMenuItem1.Click += especialidadesToolStripMenuItem1_Click;
             // 
             // especialidadesToolStripMenuItem2
             // 
             especialidadesToolStripMenuItem2.Name = "especialidadesToolStripMenuItem2";
-            especialidadesToolStripMenuItem2.Size = new Size(160, 22);
+            especialidadesToolStripMenuItem2.Size = new Size(224, 26);
             especialidadesToolStripMenuItem2.Text = "Especialidades";
             especialidadesToolStripMenuItem2.Click += especialidadesToolStripMenuItem2_Click;
             // 
             // obrasSocialesToolStripMenuItem1
             // 
             obrasSocialesToolStripMenuItem1.Name = "obrasSocialesToolStripMenuItem1";
-            obrasSocialesToolStripMenuItem1.Size = new Size(160, 22);
+            obrasSocialesToolStripMenuItem1.Size = new Size(224, 26);
             obrasSocialesToolStripMenuItem1.Text = "Obras Sociales";
             obrasSocialesToolStripMenuItem1.Click += obrasSocialesToolStripMenuItem1_Click;
-            // 
-            // pacientesToolStripMenuItem
-            // 
-            pacientesToolStripMenuItem.Name = "pacientesToolStripMenuItem";
-            pacientesToolStripMenuItem.Size = new Size(160, 22);
-            pacientesToolStripMenuItem.Text = "Pacientes";
-            pacientesToolStripMenuItem.Click += pacientesToolStripMenuItem_Click;
             // 
             // consultoriosToolStripMenuItem
             // 
             consultoriosToolStripMenuItem.Name = "consultoriosToolStripMenuItem";
-            consultoriosToolStripMenuItem.Size = new Size(160, 22);
+            consultoriosToolStripMenuItem.Size = new Size(224, 26);
             consultoriosToolStripMenuItem.Text = "Consultorios";
             consultoriosToolStripMenuItem.Click += consultoriosToolStripMenuItem_Click;
+            // 
+            // personaToolStripMenuItem
+            // 
+            personaToolStripMenuItem.Name = "personaToolStripMenuItem";
+            personaToolStripMenuItem.Size = new Size(224, 26);
+            personaToolStripMenuItem.Text = "Personas";
+            personaToolStripMenuItem.Click += personaToolStripMenuItem_Click;
+            // 
+            // especialidadesToolStripMenuItem1
+            // 
+            especialidadesToolStripMenuItem1.Name = "especialidadesToolStripMenuItem1";
+            especialidadesToolStripMenuItem1.Size = new Size(224, 26);
+            especialidadesToolStripMenuItem1.Text = "Profesionales";
+            especialidadesToolStripMenuItem1.Click += especialidadesToolStripMenuItem1_Click;
+            // 
+            // pacientesToolStripMenuItem
+            // 
+            pacientesToolStripMenuItem.Name = "pacientesToolStripMenuItem";
+            pacientesToolStripMenuItem.Size = new Size(224, 26);
+            pacientesToolStripMenuItem.Text = "Pacientes";
+            pacientesToolStripMenuItem.Click += pacientesToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(157, 6);
+            toolStripSeparator1.Size = new Size(221, 6);
             // 
             // salirToolStripMenuItem
             // 
             salirToolStripMenuItem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(160, 22);
+            salirToolStripMenuItem.Size = new Size(224, 26);
             salirToolStripMenuItem.Text = "Salir";
             salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
             // 
@@ -127,69 +136,64 @@
             // 
             turnosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { agendarToolStripMenuItem, agendaToolStripMenuItem });
             turnosToolStripMenuItem.Name = "turnosToolStripMenuItem";
-            turnosToolStripMenuItem.Size = new Size(56, 20);
+            turnosToolStripMenuItem.Size = new Size(67, 24);
             turnosToolStripMenuItem.Text = "Turnos";
             // 
             // agendarToolStripMenuItem
             // 
             agendarToolStripMenuItem.Name = "agendarToolStripMenuItem";
-            agendarToolStripMenuItem.Size = new Size(146, 22);
+            agendarToolStripMenuItem.Size = new Size(181, 26);
             agendarToolStripMenuItem.Text = "Asignar turno";
             agendarToolStripMenuItem.Click += agendarToolStripMenuItem_Click;
             // 
             // agendaToolStripMenuItem
             // 
             agendaToolStripMenuItem.Name = "agendaToolStripMenuItem";
-            agendaToolStripMenuItem.Size = new Size(146, 22);
+            agendaToolStripMenuItem.Size = new Size(181, 26);
             agendaToolStripMenuItem.Text = "Agenda";
             agendaToolStripMenuItem.Click += agendaToolStripMenuItem_Click;
             // 
             // historiaClinicaToolStripMenuItem
             // 
             historiaClinicaToolStripMenuItem.Name = "historiaClinicaToolStripMenuItem";
-            historiaClinicaToolStripMenuItem.Size = new Size(99, 20);
+            historiaClinicaToolStripMenuItem.Size = new Size(123, 24);
             historiaClinicaToolStripMenuItem.Text = "Historia Clinica";
             historiaClinicaToolStripMenuItem.Click += historiaClinicaToolStripMenuItem_Click;
             // 
             // contextMenuStrip1
             // 
+            contextMenuStrip1.ImageScalingSize = new Size(20, 20);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { especialidadesToolStripMenuItem, obrasSocialesToolStripMenuItem, cerrarToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(151, 70);
+            contextMenuStrip1.Size = new Size(177, 76);
             // 
             // especialidadesToolStripMenuItem
             // 
             especialidadesToolStripMenuItem.Name = "especialidadesToolStripMenuItem";
-            especialidadesToolStripMenuItem.Size = new Size(150, 22);
+            especialidadesToolStripMenuItem.Size = new Size(176, 24);
             especialidadesToolStripMenuItem.Text = "Especialidades";
             // 
             // obrasSocialesToolStripMenuItem
             // 
             obrasSocialesToolStripMenuItem.Name = "obrasSocialesToolStripMenuItem";
-            obrasSocialesToolStripMenuItem.Size = new Size(150, 22);
+            obrasSocialesToolStripMenuItem.Size = new Size(176, 24);
             obrasSocialesToolStripMenuItem.Text = "Obras Sociales";
             // 
             // cerrarToolStripMenuItem
             // 
             cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
-            cerrarToolStripMenuItem.Size = new Size(150, 22);
+            cerrarToolStripMenuItem.Size = new Size(176, 24);
             cerrarToolStripMenuItem.Text = "Cerrar";
-            // 
-            // personaToolStripMenuItem
-            // 
-            personaToolStripMenuItem.Name = "personaToolStripMenuItem";
-            personaToolStripMenuItem.Size = new Size(160, 22);
-            personaToolStripMenuItem.Text = "Personas";
-            personaToolStripMenuItem.Click += personaToolStripMenuItem_Click;
             // 
             // Inicio
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 600);
             Controls.Add(menuStrip1);
             IsMdiContainer = true;
             MainMenuStrip = menuStrip1;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Inicio";
             Text = "POLICONSULTORIOS";
             menuStrip1.ResumeLayout(false);

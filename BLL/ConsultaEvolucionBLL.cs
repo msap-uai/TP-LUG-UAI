@@ -50,7 +50,15 @@ namespace BLL
         }
         public List<ConsultaEvolucion> ObtenerConsultas()
         {
-            return dal.ObtenerConsultasEvolucion();
+            try
+            {
+                 return dal.ObtenerConsultasEvolucion();
+            }
+            catch
+            {
+                throw;
+            }
+           
         }
     }
 }

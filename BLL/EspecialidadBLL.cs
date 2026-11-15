@@ -11,50 +11,76 @@ namespace BLL
 
         public static void GuardarEspecialidad(int? id, string descripcion)
         {
-            int especialidadId = (id == null) ? 0 : id.Value;
-
-            ValidarDescripcion(descripcion);
-
-            Especialidad especialidad = new Especialidad(especialidadId, descripcion);
-
-            if (especialidad.Id == 0)
+            try
             {
-                EspecialidadDAL.AgregarEspecialidad(especialidad);
+                int especialidadId = (id == null) ? 0 : id.Value;
+
+                ValidarDescripcion(descripcion);
+
+                Especialidad especialidad = new Especialidad(especialidadId, descripcion);
+
+                if (especialidad.Id == 0)
+                {
+                    EspecialidadDAL.AgregarEspecialidad(especialidad);
+                }
+                else
+                {
+                    EspecialidadDAL.ModificarEspecialidad(especialidad);
+                }
             }
-            else
+            catch
             {
-                EspecialidadDAL.ModificarEspecialidad(especialidad);
+                throw;
             }
+           
         }
 
         public static void EliminarEspecialidad(int id)
         {
-            List<Profesional> profesionales = ProfesionalBLL.ObtenerProfesionalesPorEspecialidad(id);
-
-            if (profesionales.Count > 0)
+            try
             {
-                throw new Exception("No se puede eliminar la especialidad porque hay profesionales asociados a ella.");
-            }
+                List<Profesional> profesionales = ProfesionalBLL.ObtenerProfesionalesPorEspecialidad(id);
 
-            EspecialidadDAL.EliminarEspecialidad(id);
+                if (profesionales.Count > 0)
+                {
+                    throw new Exception("No se puede eliminar la especialidad porque hay profesionales asociados a ella.");
+                }
+
+                EspecialidadDAL.EliminarEspecialidad(id);
+            }
+            catch
+            {
+                throw;
+            }
+            
         }
 
         private static void ValidarDescripcion(string descripcion)
         {
-            if (string.IsNullOrWhiteSpace(descripcion))
+            try
             {
-                throw new ArgumentException("La descripción no puede estar vacía.");
+
+                if (string.IsNullOrWhiteSpace(descripcion))
+                {
+                    throw new ArgumentException("La descripción no puede estar vacía.");
+                }
+
+                if (descripcion.Length > 60)
+                {
+                    throw new ArgumentException("La descripción no puede tener más de 60 caracteres.");
+                }
+
+                if (descripcion.Length < 3)
+                {
+                    throw new ArgumentException("La descripción debe tener al menos 3 caracteres.");
+                }
+
+            }
+            catch
+            {
+                throw;
             }
 
-            if (descripcion.Length > 60)
-            {
-                throw new ArgumentException("La descripción no puede tener más de 60 caracteres.");
-            }
-
-            if (descripcion.Length < 3)
-            {
-                throw new ArgumentException("La descripción debe tener al menos 3 caracteres.");
-            }
         }
     }
 }

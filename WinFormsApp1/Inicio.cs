@@ -74,5 +74,7 @@ namespace WinFormsApp1
         {
             AbrirVista(new HistoriaClinica());
         }
+
+       
     }
 }

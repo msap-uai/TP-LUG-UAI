@@ -87,50 +87,51 @@ namespace BLL
 
         public void ModificarPaciente(Paciente paciente)
         {
-
-            if (paciente == null)
-            {
-                throw new Exception("Tiene que existir el paciente");
-            }
-
-            if (paciente.IdPaciente <= 0)
-            {
-                throw new Exception("Debe seleccionar un paciente válido para modificar.");
-            }
-
-            if (paciente.Id <= 0)
-            {
-                throw new Exception("La persona asociada al paciente no es válida.");
-            }
-
-            // Validaciones específicas del paciente
-
-            if (paciente.FechaNacimiento == DateTime.MinValue)
-            {
-                throw new Exception("Debe ingresar la fecha de nacimiento.");
-            }
-
-            if (paciente.FechaNacimiento.Date > DateTime.Today)
-            {
-                throw new Exception("La fecha de nacimiento no puede ser futura.");
-            }
-
-            if (paciente.ObraSocial != null && paciente.ObraSocial.Id <= 0)
-            {
-                throw new Exception("La obra social seleccionada no es válida.");
-            }
-
             try
             {
+
+                if (paciente == null)
+                {
+                    throw new Exception("Tiene que existir el paciente");
+                }
+
+                if (paciente.IdPaciente <= 0)
+                {
+                    throw new Exception("Debe seleccionar un paciente válido para modificar.");
+                }
+
+                if (paciente.Id <= 0)
+                {
+                    throw new Exception("La persona asociada al paciente no es válida.");
+                }
+
+                // Validaciones específicas del paciente
+
+                if (paciente.FechaNacimiento == DateTime.MinValue)
+                {
+                    throw new Exception("Debe ingresar la fecha de nacimiento.");
+                }
+
+                if (paciente.FechaNacimiento.Date > DateTime.Today)
+                {
+                    throw new Exception("La fecha de nacimiento no puede ser futura.");
+                }
+
+                if (paciente.ObraSocial != null && paciente.ObraSocial.Id <= 0)
+                {
+                    throw new Exception("La obra social seleccionada no es válida.");
+                }
+
+
                 using (var trx = new TransactionScope())
                 {
                     PacienteDAL.ModificarPaciente(paciente);
                     trx.Complete();
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                throw new Exception("No se pudo modificar el paciente"+ex.Message,ex);
+                throw new Exception("No se pudo modificar el paciente" + ex.Message, ex);
             }
         }
 
