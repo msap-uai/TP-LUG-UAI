@@ -90,11 +90,9 @@ namespace BLL
         {
             try
             {
-                if (paciente.NumeroAfiliado != null &&
-                    paciente.NumeroAfiliado.Length > 30)
+                if (paciente.NumeroAfiliado != null && paciente.NumeroAfiliado.Length > 30)
                 {
-                    throw new Exception(
-                        "El número de afiliado no puede superar los 30 caracteres.");
+                    throw new Exception("El número de afiliado no puede superar los 30 caracteres.");
                 }
             }
             catch

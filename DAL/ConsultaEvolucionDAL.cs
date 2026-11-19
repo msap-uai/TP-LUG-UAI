@@ -66,6 +66,8 @@ namespace DAL
                     PP.APELLIDO AS APELLIDO_PACIENTE,
                     PP.DNI AS DNI_PACIENTE,
                     PA.FECHA_NACIMIENTO,
+                    PA.ID_OBRA_SOCIAL,
+                    OS.NOMBRE AS NOMBRE_OBRA_SOCIAL,
                     T.ID_PROFESIONAL,
                     PR.ID_PERSONA AS ID_PERSONA_PROFESIONAL,
                     PPR.NOMBRE AS NOMBRE_PROFESIONAL,
@@ -88,6 +90,9 @@ namespace DAL
 
                     INNER JOIN PERSONA PP
                     ON PA.ID_PERSONA = PP.ID_PERSONA
+
+                    LEFT JOIN OBRA_SOCIAL OS
+                    ON PA.ID_OBRA_SOCIAL = OS.ID_OBRA_SOCIAL
 
                     INNER JOIN PROFESIONAL PR
                     ON T.ID_PROFESIONAL = PR.ID_PROFESIONAL

@@ -28,6 +28,10 @@ namespace BLL
                     throw new Exception("Debe seleccionar un turno válido.");
                 }
 
+                ValidarDiagnostico(consulta);
+                ValidarMedicacion(consulta);
+               
+
                 // VALIDAR EL ESTADO ACTUAL DEL TURNO
 
                 TurnoDAL turnoDAL = new TurnoDAL();
@@ -54,6 +58,37 @@ namespace BLL
                 {
                     throw new Exception("Solo se pueden atender turnos pendientes.");
                 }
+
+                // VALIDAR PACIENTE Y PROFESIONAL
+                if (turnoEncontrado.Paciente == null)
+                {
+                    throw new Exception("El turno no tiene un paciente asignado.");
+                }
+
+                if (turnoEncontrado.Profesional == null)
+                {
+                    throw new Exception("El turno no tiene un profesional asignado.");
+                }
+
+                decimal arancel = turnoEncontrado.Profesional.Arancel;
+
+                if (arancel <= 0)
+                {
+                    throw new Exception("El arancel del profesional debe ser mayor a cero.");
+                }
+
+                // POLIMORFISMO
+                Persona persona = turnoEncontrado.Paciente;
+
+                consulta.MontoCobrado = persona.CalcularCostoFinal(arancel);
+
+                // VALIDAR EL MONTO CALCULADO
+                ValidarMontoCobrado(consulta);
+
+                // UTILIZAR EL TURNO RECUPERADO
+                consulta.Turno = turnoEncontrado;
+
+
 
                 // TRANSACCIÓN
                 using (TransactionScope trx = new TransactionScope())
@@ -86,5 +121,56 @@ namespace BLL
             }
            
         }
+
+        private void ValidarDiagnostico(ConsultaEvolucion consulta)
+        {
+            try
+            {
+                if (consulta.Diagnostico != null && consulta.Diagnostico.Length > 500)
+                {
+                    throw new ArgumentException("El diagnóstico no puede superar los 500 caracteres.");
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void ValidarMedicacion(ConsultaEvolucion consulta)
+        {
+            try
+            {
+                if (consulta.Medicacion != null && consulta.Medicacion.Length > 500)
+                {
+                    throw new ArgumentException("La medicación no puede superar los 500 caracteres.");
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void ValidarMontoCobrado(ConsultaEvolucion consulta)
+        {
+            try
+            {
+                if (consulta.MontoCobrado < 0)
+                {
+                    throw new ArgumentException("El monto cobrado no puede ser negativo.");
+                }
+
+                if (consulta.MontoCobrado >= 100000000m)
+                {
+                    throw new ArgumentException("El monto cobrado debe ser menor a 100 millones.");
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
     }
 }

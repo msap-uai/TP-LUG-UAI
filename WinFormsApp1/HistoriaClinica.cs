@@ -79,8 +79,8 @@ namespace UI
                     Turno = turno,
                     FechaAtencion = DateTime.Now, 
                     Diagnostico = evolucionTexto,
-                    Observaciones = "Atención realizada el " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
-                    MontoCobrado = turno.Profesional != null ? turno.Profesional.Arancel : 0
+                    Observaciones = "Atención realizada el " + DateTime.Now.ToString("dd/MM/yyyy HH:mm")
+                    
                 };
 
                 consultaBll.RegistrarAtencion(consulta);

@@ -32,6 +32,16 @@ namespace MPP
 
             EstadoTurno estado = (EstadoTurno)Enum.Parse(typeof(EstadoTurno), estadoTexto, true);
 
+            ObraSocial obraSocial = null;
+
+            if (sqlDataReader["ID_OBRA_SOCIAL"] != DBNull.Value)
+            {
+                obraSocial = new ObraSocial(
+                    Convert.ToInt32(sqlDataReader["ID_OBRA_SOCIAL"]),
+                    Convert.ToString(sqlDataReader["NOMBRE_OBRA_SOCIAL"])
+                );
+            }
+
             Paciente paciente = new Paciente(
                 idPersonaPaciente,
                 idPaciente,
@@ -41,7 +51,7 @@ namespace MPP
                 null,
                 null,
                 Convert.ToDateTime(sqlDataReader["FECHA_NACIMIENTO"]),
-                null,
+                obraSocial,
                 null
             );
 
